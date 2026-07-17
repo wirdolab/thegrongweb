@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Express — TheGrongWeb</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{--ink:#0a0a0a;--paper:#ffffff;--accent:#3b2bff;--muted:#8a8a8a;--line:#ebebeb;--soft:#fafafa}
+  *{margin:0;padding:0;box-sizing:border-box}
+  ::selection{background:var(--accent);color:#fff}
+  body{font-family:'Space Grotesk',-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  body.lang-en .es{display:none!important}
+  body.lang-es .en{display:none!important}
+  .wrap{max-width:600px;margin:0 auto;padding:48px 28px 100px}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px}
+  .logo{font-weight:700;font-size:.95rem;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
+  .logo i{font-style:normal;color:var(--accent)}
+  .lang-btn{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:500;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,monospace}
+  .ok-badge{display:inline-block;background:#e9f9f0;color:#0e8a5f;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
+  h1{font-size:1.9rem;letter-spacing:-.03em;margin-bottom:10px;font-weight:700}
+  .intro{color:var(--muted);font-size:.95rem;margin-bottom:36px}
+  label{display:block;font-size:.88rem;font-weight:500;margin-bottom:18px}
+  .hint{display:block;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:2px}
+  input[type=text],input[type=email],input[type=tel]{display:block;width:100%;margin-top:8px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.93rem;font-family:'Space Grotesk',sans-serif;transition:border-color .15s;color:var(--ink)}
+  input:focus{outline:none;border-color:var(--accent);background:#fff}
+  .sub-row{display:flex;align-items:center;gap:0;margin-top:8px}
+  .sub-row input{margin-top:0;border-radius:8px 0 0 8px;border-right:none}
+  .sub-row span{background:var(--soft);border:1px solid var(--line);border-left:none;border-radius:0 8px 8px 0;padding:12px 14px;font-size:.82rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;white-space:nowrap}
+  .prefill{background:#f4f3ff;border:1px solid #ddd9ff;border-radius:8px;padding:10px 14px;font-size:.75rem;color:var(--accent);margin-bottom:20px;font-family:'IBM Plex Mono',monospace;display:none}
+  .send{display:block;width:100%;background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:8px;padding:16px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s;margin-top:8px}
+  .send:hover{background:var(--accent);border-color:var(--accent)}
+  .fine{font-size:.75rem;color:var(--muted);text-align:center;margin-top:16px}
+  .fine a{color:var(--accent)}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="lang-es">
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="index.html">thegrong<i>web</i></a>
+    <button class="lang-btn" onclick="toggleLang()"><span class="es">EN</span><span class="en">ES</span></button>
+  </div>
+
+  <span class="ok-badge"><span class="es">✓ Pago recibido</span><span class="en">✓ Payment received</span></span>
+  <h1><span class="es">Publiquemos tu demo</span><span class="en">Let's publish your demo</span></h1>
+  <p class="intro"><span class="es">2 minutos y listo. En menos de 24 horas hábiles te mandamos el link de tu página en vivo.</span><span class="en">2 minutes and done. Within 24 business hours we'll send you your live site link.</span></p>
+
+  <p class="prefill" id="pf"><span class="es">✓ Detectamos el link de tu demo — ya lo pusimos abajo.</span><span class="en">✓ We detected your demo link — it's filled in below.</span></p>
+
+  <!-- PLACEHOLDER: usa tu ID de Formspree -->
+  <form action="https://formspree.io/f/TU_ID_FORMSPREE" method="POST">
+    <label><span class="es">Correo (el mismo con el que pagaste)</span><span class="en">Email (the one you paid with)</span>
+      <input type="email" name="email" required>
+    </label>
+    <label><span class="es">Nombre de tu negocio</span><span class="en">Business name</span>
+      <input type="text" name="negocio" required>
+    </label>
+    <label><span class="es">Link de tu demo</span><span class="en">Your demo link</span>
+      <span class="hint es">Es el link que copiaste al generar tu demo (contiene #d=...). Si lo perdiste, vuelve a generarlo igual y pega el nuevo.</span>
+      <span class="hint en">The link you copied when generating your demo (contains #d=...). Lost it? Generate it again the same way and paste the new one.</span>
+      <input type="text" name="demo_link" id="demo-link" required placeholder="https://…#d=…">
+    </label>
+    <label><span class="es">Elige tu subdominio</span><span class="en">Pick your subdomain</span>
+      <div class="sub-row">
+        <input type="text" name="subdominio" required placeholder="tunegocio" pattern="[a-z0-9\-]+" title="solo minúsculas, números y guiones / lowercase, numbers and hyphens">
+        <span>.thegrongweb.com</span>
+      </div>
+    </label>
+    <label><span class="es">WhatsApp para avisarte (opcional)</span><span class="en">WhatsApp to notify you (optional)</span>
+      <input type="tel" name="whatsapp">
+    </label>
+    <input type="hidden" name="_subject" value="DEMO EXPRESS $49 — publicar">
+    <button class="send" type="submit"><span class="es">Publicar mi demo →</span><span class="en">Publish my demo →</span></button>
+    <p class="fine"><span class="es">Se publica tal cual la generaste. Sin revisiones. Tus $49 se descuentan completos si subes a Esencial en 30 días. <a href="terminos.html">Términos</a></span><span class="en">Published exactly as you generated it. No revisions. Your $49 counts fully toward Essential within 30 days. <a href="terminos.html">Terms</a></span></p>
+  </form>
+</div>
+<script>
+  function setLang(l){document.body.className='lang-'+l;document.documentElement.lang=l;try{localStorage.setItem('tgw-lang',l)}catch(e){}}
+  function toggleLang(){setLang(document.body.classList.contains('lang-es')?'en':'es')}
+  (function(){var s=null;try{s=localStorage.getItem('tgw-lang')}catch(e){}
+  if(s){setLang(s);} else {setLang(((navigator.language||'es').toLowerCase().startsWith('es'))?'es':'en');}
+  /* prefill demo link saved when they clicked the $49 button */
+  try{
+    var dl=localStorage.getItem('tgw-demo-link');
+    if(dl){document.getElementById('demo-link').value=dl;document.getElementById('pf').style.display='block';}
+  }catch(e){}
+  })();
+</script>
+</body>
+</html>
