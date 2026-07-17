@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de requisitos / Requirements form — TheGrongWeb</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{--ink:#0a0a0a;--paper:#ffffff;--accent:#3b2bff;--muted:#8a8a8a;--line:#ebebeb;--soft:#fafafa}
+  *{margin:0;padding:0;box-sizing:border-box}
+  ::selection{background:var(--accent);color:#fff}
+  body{font-family:'Space Grotesk',-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  body.lang-en .es{display:none!important}
+  body.lang-es .en{display:none!important}
+  .wrap{max-width:680px;margin:0 auto;padding:48px 28px 100px}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px}
+  .logo{font-weight:700;font-size:.95rem;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
+  .logo i{font-style:normal;color:var(--accent)}
+  .lang-btn{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:500;cursor:pointer;font-family:'IBM Plex Mono',ui-monospace,monospace}
+  h1{font-size:1.9rem;letter-spacing:-.03em;margin-bottom:10px;font-weight:700}
+  .intro{color:var(--muted);font-size:.95rem;margin-bottom:12px}
+  .time{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);margin-bottom:44px;display:block}
+  fieldset{border:1px solid var(--line);border-radius:14px;padding:30px 28px;margin-bottom:28px}
+  legend{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);padding:0 10px}
+  label{display:block;font-size:.88rem;font-weight:500;margin-bottom:18px}
+  .hint{display:block;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:2px}
+  input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{display:block;width:100%;margin-top:8px;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.93rem;font-family:'Space Grotesk',sans-serif;transition:border-color .15s;color:var(--ink)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+  textarea{min-height:96px;resize:vertical}
+  .radios{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  .radios label{display:flex;align-items:center;gap:8px;font-weight:400;font-size:.85rem;border:1px solid var(--line);border-radius:8px;padding:10px 14px;cursor:pointer;margin:0}
+  .radios label:has(input:checked){border-color:var(--accent);background:#f4f3ff}
+  .radios input{accent-color:var(--accent)}
+  .send{display:block;width:100%;background:var(--ink);color:#fff;border:1px solid var(--ink);border-radius:8px;padding:16px;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background .15s}
+  .send:hover{background:var(--accent);border-color:var(--accent)}
+  .privacy{font-size:.75rem;color:var(--muted);text-align:center;margin-top:16px}
+  .privacy a{color:var(--accent)}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="lang-es">
+<div class="wrap">
+  <div class="top">
+    <a class="logo" href="index.html">thegrong<i>web</i></a>
+    <button class="lang-btn" onclick="toggleLang()"><span class="es">EN</span><span class="en">ES</span></button>
+  </div>
+
+  <h1><span class="es">Cuéntanos de tu negocio</span><span class="en">Tell us about your business</span></h1>
+  <p class="intro"><span class="es">Con esto construimos tu página exactamente como la necesitas. Entre más detalle nos des, mejor queda a la primera — y más rápido la publicamos.</span><span class="en">This is how we build your site exactly the way you need it. The more detail you give us, the better the first version — and the faster we publish.</span></p>
+  <span class="time"><span class="es">⏱ 8–10 minutos · guarda tus links a la mano</span><span class="en">⏱ 8–10 minutes · have your links handy</span></span>
+
+  <!-- PLACEHOLDER: crea un form gratis en formspree.io y reemplaza TU_ID_FORMSPREE -->
+  <form action="https://formspree.io/f/TU_ID_FORMSPREE" method="POST">
+
+    <fieldset>
+      <legend><span class="es">1 · Tu compra</span><span class="en">1 · Your purchase</span></legend>
+      <label><span class="es">Tu nombre completo</span><span class="en">Full name</span>
+        <input type="text" name="nombre" required>
+      </label>
+      <label><span class="es">Correo (el mismo con el que pagaste)</span><span class="en">Email (the one you paid with)</span>
+        <input type="email" name="email" required>
+      </label>
+      <label><span class="es">Plan contratado</span><span class="en">Plan purchased</span>
+        <div class="radios">
+          <label><input type="radio" name="plan" value="Esencial $149" required> <span class="es">Esencial — $149</span><span class="en">Essential — $149</span></label>
+          <label><input type="radio" name="plan" value="Pro $499"> Pro — $499</label>
+          <label><input type="radio" name="plan" value="Premium $1249"> Premium — $1,249</label>
+        </div>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="es">2 · Tu negocio</span><span class="en">2 · Your business</span></legend>
+      <label><span class="es">Nombre del negocio (como debe aparecer)</span><span class="en">Business name (as it should appear)</span>
+        <input type="text" name="negocio" required>
+      </label>
+      <label><span class="es">¿A qué te dedicas y qué te hace diferente?</span><span class="en">What do you do and what makes you different?</span>
+        <span class="hint es">2–4 frases. Esto define el mensaje principal de tu página.</span><span class="hint en">2–4 sentences. This defines your site's main message.</span>
+        <textarea name="descripcion" required></textarea>
+      </label>
+      <label><span class="es">Servicios o productos principales (3 a 6)</span><span class="en">Main services or products (3 to 6)</span>
+        <span class="hint es">Uno por línea. Si tienen precio y quieres mostrarlo, inclúyelo.</span><span class="hint en">One per line. Include prices if you want them shown.</span>
+        <textarea name="servicios" required></textarea>
+      </label>
+      <label><span class="es">Ciudad y zona de servicio</span><span class="en">City and service area</span>
+        <input type="text" name="ciudad" required>
+      </label>
+      <label><span class="es">Teléfono / WhatsApp para clientes</span><span class="en">Customer phone / WhatsApp</span>
+        <input type="tel" name="telefono" required>
+      </label>
+      <label><span class="es">Horarios de atención</span><span class="en">Business hours</span>
+        <input type="text" name="horarios" placeholder="Lun–Vie 9:00–19:00, Sáb 10:00–14:00">
+      </label>
+      <label><span class="es">Redes sociales (links)</span><span class="en">Social media (links)</span>
+        <textarea name="redes" placeholder="https://instagram.com/…&#10;https://facebook.com/…"></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="es">3 · Tu marca</span><span class="en">3 · Your brand</span></legend>
+      <label><span class="es">¿Tienes logo?</span><span class="en">Do you have a logo?</span>
+        <div class="radios">
+          <label><input type="radio" name="logo" value="si" required> <span class="es">Sí (mando link abajo)</span><span class="en">Yes (link below)</span></label>
+          <label><input type="radio" name="logo" value="no"> <span class="es">No — usen mi nombre con buena tipografía</span><span class="en">No — use my name in nice type</span></label>
+        </div>
+      </label>
+      <label><span class="es">Colores de tu marca o los que te gustan</span><span class="en">Brand colors, or colors you like</span>
+        <input type="text" name="colores" placeholder="Ej. verde oscuro y dorado / Dark green and gold">
+      </label>
+      <label><span class="es">Estilo que buscas</span><span class="en">Style you're after</span>
+        <div class="radios">
+          <label><input type="radio" name="estilo" value="moderno"> <span class="es">Moderno / minimal</span><span class="en">Modern / minimal</span></label>
+          <label><input type="radio" name="estilo" value="calido"> <span class="es">Cálido / acogedor</span><span class="en">Warm / cozy</span></label>
+          <label><input type="radio" name="estilo" value="elegante"> <span class="es">Elegante / premium</span><span class="en">Elegant / premium</span></label>
+          <label><input type="radio" name="estilo" value="vibrante"> <span class="es">Vibrante / juvenil</span><span class="en">Bold / vibrant</span></label>
+        </div>
+      </label>
+      <label><span class="es">Link a tu logo y fotos (Drive, Dropbox, WeTransfer…)</span><span class="en">Link to your logo and photos (Drive, Dropbox, WeTransfer…)</span>
+        <span class="hint es">Fotos reales de tu negocio &gt; fotos de stock. Si no tienes, elegimos stock profesional por ti.</span><span class="hint en">Real photos of your business &gt; stock. If you have none, we'll pick pro stock for you.</span>
+        <input type="url" name="material" placeholder="https://drive.google.com/…">
+      </label>
+      <label><span class="es">2–3 páginas web que te gusten (de lo que sea)</span><span class="en">2–3 websites you like (any kind)</span>
+        <span class="hint es">Nos dice más que mil palabras sobre tu gusto.</span><span class="hint en">Tells us more about your taste than a thousand words.</span>
+        <textarea name="referencias" placeholder="https://…&#10;https://…"></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="es">4 · Tu página</span><span class="en">4 · Your site</span></legend>
+      <label><span class="es">¿Qué debe lograr tu página? (elige lo principal)</span><span class="en">What should your site achieve? (pick the main one)</span>
+        <div class="radios">
+          <label><input type="radio" name="objetivo" value="contacto" required> <span class="es">Que me contacten / llamen</span><span class="en">Get calls / messages</span></label>
+          <label><input type="radio" name="objetivo" value="citas"> <span class="es">Agendar citas</span><span class="en">Book appointments</span></label>
+          <label><input type="radio" name="objetivo" value="visitas"> <span class="es">Que visiten mi local</span><span class="en">Drive foot traffic</span></label>
+          <label><input type="radio" name="objetivo" value="credibilidad"> <span class="es">Verse profesional / dar confianza</span><span class="en">Look professional / build trust</span></label>
+        </div>
+      </label>
+      <label><span class="es">Testimonios o reseñas que quieras mostrar</span><span class="en">Testimonials or reviews to feature</span>
+        <span class="hint es">Cópialos aquí o dinos "usen mis reseñas de Google".</span><span class="hint en">Paste them here or say "use my Google reviews".</span>
+        <textarea name="testimonios"></textarea>
+      </label>
+      <label><span class="es">¿Tienes dominio? (ej. tunegocio.com)</span><span class="en">Do you have a domain? (e.g. yourbusiness.com)</span>
+        <div class="radios">
+          <label><input type="radio" name="dominio" value="tengo"> <span class="es">Sí, ya tengo uno</span><span class="en">Yes, I own one</span></label>
+          <label><input type="radio" name="dominio" value="quiero"> <span class="es">No — ayúdenme a elegir</span><span class="en">No — help me pick one</span></label>
+        </div>
+      </label>
+      <label><span class="es">Si ya lo tienes, ¿cuál es? / Si no, ¿qué nombre te gustaría?</span><span class="en">If you have one, what is it? / If not, what name would you like?</span>
+        <input type="text" name="dominio_detalle">
+      </label>
+      <label><span class="es">Algo más que debamos saber</span><span class="en">Anything else we should know</span>
+        <span class="hint es">Promociones, certificaciones, premios, si necesitas factura, lo que sea.</span><span class="hint en">Promos, certifications, awards, invoicing needs, anything.</span>
+        <textarea name="extra"></textarea>
+      </label>
+    </fieldset>
+
+    <input type="hidden" name="_subject" value="Nuevo formulario de requisitos — TheGrongWeb">
+    <button class="send" type="submit"><span class="es">Enviar y empezar mi página →</span><span class="en">Submit and start my site →</span></button>
+    <p class="privacy"><span class="es">Tus datos solo se usan para construir tu página. <a href="privacidad.html">Aviso de privacidad</a></span><span class="en">Your data is only used to build your site. <a href="privacidad.html">Privacy policy</a></span></p>
+  </form>
+</div>
+<script>
+  function setLang(l){document.body.className='lang-'+l;document.documentElement.lang=l;try{localStorage.setItem('tgw-lang',l)}catch(e){}}
+  function toggleLang(){setLang(document.body.classList.contains('lang-es')?'en':'es')}
+  (function(){var s=null;try{s=localStorage.getItem('tgw-lang')}catch(e){}
+  if(s){setLang(s);return}
+  setLang(((navigator.language||'es').toLowerCase().startsWith('es'))?'es':'en')})();
+</script>
+</body>
+</html>
