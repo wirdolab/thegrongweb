@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheGrongWeb — Tu página web, ya hecha | Your website, already built</title>
+<meta name="description" content="Páginas web profesionales desde $149 USD. Tan fácil que es absurdo. Professional websites from $149 USD. So easy it's absurd.">
+<style>
+  :root{
+    --ink:#0a0a0a; --paper:#ffffff; --accent:#3b2bff; --muted:#8a8a8a;
+    --line:#ebebeb; --soft:#fafafa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  ::selection{background:var(--accent);color:#fff}
+  body{font-family:'Space Grotesk',-apple-system,'Segoe UI',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  body.lang-en .es{display:none!important}
+  body.lang-es .en{display:none!important}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  a{color:inherit}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+
+  header{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:50}
+  nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{font-weight:700;font-size:1rem;letter-spacing:-.02em;text-decoration:none}
+  .logo i{font-style:normal;color:var(--accent)}
+  .nav-right{display:flex;align-items:center;gap:22px}
+  .nav-links{display:flex;gap:22px;font-size:.82rem}
+  .nav-links a{text-decoration:none;color:var(--muted);transition:color .15s}
+  .nav-links a:hover{color:var(--ink)}
+  .lang-btn{border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:500;cursor:pointer;font-family:'IBM Plex Mono',monospace}
+  .lang-btn:hover{border-color:var(--ink)}
+
+  .hero{padding:130px 0 110px;position:relative}
+  .hero .tag{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:6px 16px;margin-bottom:36px}
+  h1{font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.02;letter-spacing:-.04em;font-weight:700;max-width:900px;margin-bottom:28px}
+  h1 .under{position:relative;white-space:nowrap;color:#fff;padding:0 .08em}
+  h1 .under::after{content:"";position:absolute;left:0;right:0;top:.08em;bottom:0;background:var(--accent);border-radius:6px;z-index:-1}
+  .sub{font-size:1.1rem;color:var(--muted);max-width:560px;margin-bottom:44px;font-weight:400}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-block;padding:15px 32px;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:all .15s ease;cursor:pointer;border:1px solid var(--ink)}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink)}
+  .btn-ghost:hover{background:var(--soft)}
+  .trust{margin-top:30px;font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+  .trust b{color:var(--ink);font-weight:600}
+
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;overflow:hidden;white-space:nowrap}
+  .marquee span{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:0 28px}
+  .marquee i{font-style:normal;color:var(--accent)}
+
+  section{padding:110px 0}
+  .kicker{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:block}
+  h2{font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:-.03em;font-weight:700;margin-bottom:16px;line-height:1.1}
+  .lead{color:var(--muted);max-width:560px;margin-bottom:64px}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .step{padding:36px 30px;border-right:1px solid var(--line);background:#fff;transition:background .2s}
+  .step:last-child{border-right:none}
+  .step:hover{background:var(--soft)}
+  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}.step{border-bottom:1px solid var(--line)}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr}}
+  .step .num{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);margin-bottom:20px;display:block}
+  .step h3{font-size:1rem;margin-bottom:10px;font-weight:600}
+  .step p{font-size:.87rem;color:var(--muted)}
+
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:stretch}
+  .plan{border:1px solid var(--line);border-radius:14px;padding:38px 32px;display:flex;flex-direction:column;background:#fff;transition:border-color .2s, transform .2s}
+  .plan:hover{border-color:#c9c9c9;transform:translateY(-3px)}
+  .plan.featured{background:var(--ink);color:#fff;border-color:var(--ink);position:relative}
+  .plan.featured:hover{border-color:var(--accent)}
+  .plan .tag{position:absolute;top:-11px;left:32px;background:var(--accent);color:#fff;font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:4px}
+  .plan h3{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;font-weight:600;color:var(--muted)}
+  .plan.featured h3{color:#9a9a9a}
+  .price{font-size:2.9rem;font-weight:700;letter-spacing:-.04em;line-height:1}
+  .price small{font-size:.85rem;font-weight:400;color:var(--muted);letter-spacing:0}
+  .once{font-family:'IBM Plex Mono',monospace;font-size:.7rem;color:var(--muted);margin:8px 0 30px}
+  .plan ul{list-style:none;margin-bottom:34px;flex:1}
+  .plan li{padding:9px 0;font-size:.88rem;border-bottom:1px solid var(--line);color:#444}
+  .plan.featured li{border-color:#222;color:#ccc}
+  .plan li::before{content:"→";color:var(--accent);margin-right:12px;font-weight:600}
+  .plan .btn{text-align:center;width:100%}
+  .plan.featured .btn{background:var(--accent);border-color:var(--accent);color:#fff}
+  .plan.featured .btn:hover{background:#fff;color:var(--ink);border-color:#fff}
+  .fine{margin-top:34px;font-size:.78rem;color:var(--muted);max-width:720px}
+
+  .split{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:center}
+  @media(max-width:760px){.split{grid-template-columns:1fr}}
+  .cal-card{border:1px solid var(--line);border-radius:14px;padding:44px 36px;text-align:center;background:var(--soft)}
+  .cal-card .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin:0 auto 18px;box-shadow:0 0 0 6px rgba(59,43,255,.1)}
+  .cal-card h3{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+  .cal-card p{color:var(--muted);font-size:.82rem}
+
+  details{border-bottom:1px solid var(--line)}
+  details:first-of-type{border-top:1px solid var(--line)}
+  summary{padding:24px 4px;font-weight:500;font-size:1rem;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:1.4rem;color:var(--accent);font-weight:300}
+  details[open] summary::after{content:"−"}
+  details .a{padding:0 4px 24px;color:var(--muted);font-size:.92rem;max-width:640px}
+
+  .demo-grid{display:grid;grid-template-columns:380px 1fr;gap:36px;align-items:start}
+  @media(max-width:860px){.demo-grid{grid-template-columns:1fr}}
+  .demo-form label{display:block;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:#9a9a9a;margin-bottom:18px;font-family:'IBM Plex Mono',monospace}
+  .demo-form input,.demo-form select{display:block;width:100%;margin-top:8px;background:#161616;border:1px solid #2a2a2a;border-radius:8px;padding:12px 14px;color:#fff;font-size:.95rem;font-family:'Space Grotesk',sans-serif;transition:border-color .15s}
+  .demo-form input:focus,.demo-form select:focus{outline:none;border-color:var(--accent)}
+  .demo-form input::placeholder{color:#555}
+  .swatches{display:flex;gap:10px;margin-top:10px}
+  .sw{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .12s}
+  .sw:hover{transform:scale(1.12)}
+  .sw.on{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.2)}
+  .demo-go{width:100%;background:#fff;color:var(--ink);border-color:#fff;margin-top:6px}
+  .demo-go:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .browser{border:1px solid #2a2a2a;border-radius:12px;overflow:hidden;background:#fff;min-height:480px;display:flex;flex-direction:column}
+  .browser-bar{background:#1d1d1d;padding:10px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #2a2a2a}
+  .browser-bar i{width:10px;height:10px;border-radius:50%;background:#3a3a3a;display:inline-block}
+  .browser-bar span{margin-left:12px;font-size:.68rem;color:#777}
+  .browser-body{flex:1;overflow-y:auto;position:relative}
+  .d-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#bbb;background:#fafafa}
+  .d-empty-icon{font-size:2rem;color:#ddd;margin-bottom:10px}
+  /* form extras */
+  .demo-form .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .demo-form textarea{display:block;width:100%;margin-top:8px;background:#161616;border:1px solid #2a2a2a;border-radius:8px;padding:12px 14px;color:#fff;font-size:.9rem;font-family:'Space Grotesk',sans-serif;resize:vertical;transition:border-color .15s}
+  .demo-form textarea:focus{outline:none;border-color:var(--accent)}
+  .demo-form textarea::placeholder{color:#555}
+  .d-hint{display:block;text-transform:none;letter-spacing:0;font-size:.72rem;color:#666;margin-top:4px;font-family:'Space Grotesk',sans-serif}
+  .stylechips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .stc{background:#161616;border:1px solid #2a2a2a;border-radius:8px;padding:9px 16px;color:#aaa;font-size:.8rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .15s}
+  .stc:hover{border-color:#555;color:#fff}
+  .stc.on{border-color:var(--accent);color:#fff;background:rgba(59,43,255,.12);box-shadow:0 0 14px rgba(59,43,255,.25)}
+  .sw-custom{display:flex;align-items:center;justify-content:center;background:#161616;border:1px dashed #444!important;color:#888;font-size:1rem;position:relative;overflow:hidden}
+  .sw-custom input{position:absolute;inset:0;opacity:0;cursor:pointer}
+  .toggles{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .tg{display:flex;align-items:center;gap:7px;background:#161616;border:1px solid #2a2a2a;border-radius:8px;padding:8px 13px;font-size:.78rem;color:#aaa;cursor:pointer;text-transform:none;letter-spacing:0;font-family:'Space Grotesk',sans-serif;margin:0}
+  .tg:has(input:checked){border-color:var(--accent);color:#fff}
+  .tg input{accent-color:var(--accent)}
+  .demo-go{position:relative;overflow:hidden}
+  .demo-go::after{content:"";position:absolute;top:0;left:-80%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(59,43,255,.25),transparent);animation:sheen 3.2s ease infinite}
+  @keyframes sheen{0%,60%{left:-80%}100%{left:120%}}
+  .preview-col .browser{min-height:560px}
+  .browser-body iframe{width:100%;height:100%;border:none;position:absolute;inset:0}
+  .open-full{margin-left:auto;background:transparent;border:1px solid #3a3a3a;color:#aaa;border-radius:6px;padding:4px 12px;font-size:.65rem;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .15s}
+  .open-full:hover{border-color:var(--accent);color:#fff}
+  .preview-tip{margin-top:12px;font-size:.68rem;color:#666}
+  /* terminal build log */
+  .d-building{position:absolute;inset:0;background:#0d0d0d;color:#8f8f8f;font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:26px 24px;line-height:2;z-index:3}
+  .d-building .ln{opacity:0;animation:lnIn .3s ease forwards;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .d-building .ln b{color:#e8e8e8;font-weight:500}
+  .d-building .ln .ok{color:#37d67a}
+  .d-building .ln .pr{color:#6f5cff}
+  .d-building .cur{display:inline-block;width:8px;height:14px;background:#6f5cff;vertical-align:middle;animation:blink .8s steps(1) infinite}
+  @keyframes lnIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  @keyframes blink{50%{opacity:0}}
+  .demo-cta{margin-top:36px;border:1px solid #2a2a2a;border-radius:14px;padding:32px;background:#141414}
+  .demo-cta p{color:#bbb;font-size:.95rem;margin-bottom:20px;max-width:640px}
+  .demo-cta strong{color:#fff}
+  .plan-hint{margin-top:22px;font-size:.75rem;color:var(--accent);letter-spacing:.02em}
+  .share-box{margin-top:18px;border-top:1px solid #2a2a2a;padding-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  @media(max-width:760px){.share-box{grid-template-columns:1fr}}
+  .share-label{font-size:.68rem;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
+  .share-row{display:flex;gap:8px}
+  .share-row input{flex:1;background:#0f0f0f;border:1px solid #2a2a2a;border-radius:8px;padding:11px 13px;color:#ddd;font-size:.8rem;font-family:'IBM Plex Mono',monospace;min-width:0}
+  .share-row input:focus{outline:none;border-color:var(--accent)}
+  .btn-mini{background:#fff;color:#0a0a0a;border:none;border-radius:8px;padding:0 18px;font-weight:600;font-size:.8rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;white-space:nowrap;transition:background .15s}
+  .btn-mini:hover{background:var(--accent);color:#fff}
+  .btn-mini.b-acc{background:var(--accent);color:#fff}
+  .btn-mini.b-acc:hover{background:#fff;color:#0a0a0a}
+  .lead-ok{margin-top:10px;font-size:.8rem;color:#37d67a}
+  .up-row{display:flex;gap:10px;margin-top:8px;align-items:center;flex-wrap:wrap}
+  .up-btn{display:inline-block;background:#161616;border:1px dashed #444;border-radius:8px;padding:10px 16px;color:#aaa;font-size:.8rem;cursor:pointer;text-transform:none;letter-spacing:0;font-family:'Space Grotesk',sans-serif;transition:all .15s;margin:0}
+  .up-btn:hover{border-color:var(--accent);color:#fff}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap}
+  .thumb{position:relative;width:44px;height:44px;border-radius:8px;overflow:hidden;border:1px solid #2a2a2a;background:#0f0f0f}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .thumb button{position:absolute;top:0;right:0;width:16px;height:16px;background:rgba(0,0,0,.75);color:#fff;border:none;font-size:.6rem;line-height:1;cursor:pointer;border-radius:0 0 0 6px}
+  .thumb button:hover{background:var(--accent)}
+  .noimg-note{margin-top:8px;font-size:.68rem;color:#777}
+
+  footer{border-top:1px solid var(--line);padding:56px 0;font-size:.8rem;color:var(--muted)}
+  .foot{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:flex-start}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--accent)}
+  .foot-links{display:flex;gap:20px;flex-wrap:wrap}
+  .addr{margin-top:12px;font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:#b0b0b0}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="lang-es">
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="#">thegrong<i>web</i></a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#como" class="es">Cómo funciona</a><a href="#como" class="en">How it works</a>
+          <a href="#demo">Demo</a>
+          <a href="#precios" class="es">Precios</a><a href="#precios" class="en">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <button class="lang-btn" onclick="toggleLang()" aria-label="Switch language"><span class="es">EN</span><span class="en">ES</span></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <span class="tag mono"><span class="es">absurdamente simple</span><span class="en">absurdly simple</span></span>
+  <h1>
+    <span class="es">Tu página web, <span class="under">ya hecha</span>.</span>
+    <span class="en">Your website, <span class="under">already built</span>.</span>
+  </h1>
+  <p class="sub">
+    <span class="es">Sitios profesionales por un solo pago desde $149 USD. Sin mensualidades sorpresa, sin tecnicismos, sin esperar meses. Tan fácil que es absurdo.</span>
+    <span class="en">Professional websites for a one-time payment from $149 USD. No surprise fees, no tech talk, no waiting months. So easy it's absurd.</span>
+  </p>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#precios"><span class="es">Ver precios</span><span class="en">See pricing</span></a>
+    <!-- PLACEHOLDER: reemplaza con tu URL real de Calendly -->
+    <a class="btn btn-ghost" href="https://calendly.com/TU-USUARIO/llamada-15-min" target="_blank" rel="noopener"><span class="es">Agendar llamada gratis</span><span class="en">Book a free call</span></a>
+  </div>
+  <p class="trust mono"><span class="es"><b>5 días</b> de entrega · garantía <b>14 días</b> · hosting 1er año <b>incluido</b></span><span class="en"><b>5-day</b> delivery · <b>14-day</b> guarantee · 1st-year hosting <b>included</b></span></p>
+</section>
+
+<div class="marquee mono" aria-hidden="true">
+  <span>restaurantes <i>·</i> dentistas <i>·</i> talleres <i>·</i> salones <i>·</i> abogados <i>·</i> gimnasios <i>·</i> cafeterías <i>·</i> contadores <i>·</i> veterinarias <i>·</i> barberías <i>·</i> restaurants <i>·</i> dentists <i>·</i> contractors <i>·</i> salons <i>·</i> lawyers</span>
+</div>
+
+<section id="como">
+  <div class="wrap">
+    <span class="kicker mono"><span class="es">Cómo funciona</span><span class="en">How it works</span></span>
+    <h2><span class="es">De cero a en línea<br>en 4 pasos</span><span class="en">From zero to live<br>in 4 steps</span></h2>
+    <p class="lead"><span class="es">No necesitas saber nada de tecnología. Tú nos cuentas de tu negocio; nosotros hacemos todo lo demás.</span><span class="en">You don't need to know anything about tech. Tell us about your business — we handle the rest.</span></p>
+    <div class="steps">
+      <div class="step"><span class="num">/01</span>
+        <h3><span class="es">Elige tu plan</span><span class="en">Pick your plan</span></h3>
+        <p><span class="es">Pago único y seguro vía Stripe. Sin suscripciones ocultas.</span><span class="en">One-time secure payment via Stripe. No hidden subscriptions.</span></p>
+      </div>
+      <div class="step"><span class="num">/02</span>
+        <h3><span class="es">Llena el formulario</span><span class="en">Fill out the form</span></h3>
+        <p><span class="es">5 minutos: logo, colores, fotos y qué quieres comunicar. Si algo falta, lo resolvemos.</span><span class="en">5 minutes: logo, colors, photos, and your message. Missing something? We'll sort it.</span></p>
+      </div>
+      <div class="step"><span class="num">/03</span>
+        <h3><span class="es">La construimos</span><span class="en">We build it</span></h3>
+        <p><span class="es">Diseño profesional según tu industria, optimizado para celular y Google.</span><span class="en">Professional, industry-tailored design. Mobile and Google ready.</span></p>
+      </div>
+      <div class="step"><span class="num">/04</span>
+        <h3><span class="es">Revisas y publicamos</span><span class="en">Review & go live</span></h3>
+        <p><span class="es">Recibes el preview, pides ajustes y la publicamos en tu dominio.</span><span class="en">You get the preview, request tweaks, and we publish on your domain.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo" style="background:var(--ink);color:#fff">
+  <div class="wrap">
+    <span class="kicker mono"><span class="es">Pruébalo ahora</span><span class="en">Try it now</span></span>
+    <h2 style="color:#fff"><span class="es">Arma tu demo en 30 segundos</span><span class="en">Build your demo in 30 seconds</span></h2>
+    <p class="lead" style="color:#9a9a9a"><span class="es">Escribe lo básico de tu negocio y mira cómo se vería tu página. Gratis, sin registrarte, sin trucos.</span><span class="en">Type the basics about your business and see what your site would look like. Free, no sign-up, no tricks.</span></p>
+
+    <div class="demo-grid">
+      <form class="demo-form" onsubmit="buildDemo(event)">
+        <label><span class="es">Nombre de tu negocio</span><span class="en">Business name</span>
+          <input type="text" id="d-name" maxlength="40" required placeholder="Tacos El Güero">
+        </label>
+        <label><span class="es">Industria</span><span class="en">Industry</span>
+          <select id="d-ind">
+            <option value="rest" selected>Restaurante — Restaurant</option>
+            <option value="cafe">Cafetería — Coffee shop</option>
+            <option value="salud">Salud / Clínica — Health / Clinic</option>
+            <option value="belleza">Salón de belleza — Beauty salon</option>
+            <option value="barber">Barbería — Barbershop</option>
+            <option value="taller">Taller mecánico — Auto repair</option>
+            <option value="hogar">Servicios del hogar — Home services</option>
+            <option value="prof">Despacho profesional — Professional firm</option>
+            <option value="fit">Gimnasio / Coach — Gym / Trainer</option>
+            <option value="tienda">Tienda — Retail shop</option>
+            <option value="vet">Veterinaria — Vet clinic</option>
+            <option value="inmo">Inmobiliaria — Real estate</option>
+            <option value="foto">Fotografía / Creativo — Photo / Creative</option>
+            <option value="edu">Escuela / Cursos — School / Courses</option>
+          </select>
+        </label>
+        <label><span class="es">¿Qué ofreces? (una frase)</span><span class="en">What do you offer? (one line)</span>
+          <input type="text" id="d-offer" maxlength="90" placeholder="Los mejores tacos al pastor de la ciudad">
+        </label>
+        <div class="two">
+          <label><span class="es">Ciudad</span><span class="en">City</span>
+            <input type="text" id="d-city" maxlength="30" placeholder="Guadalajara">
+          </label>
+          <label><span class="es">WhatsApp / Tel (opcional)</span><span class="en">WhatsApp / Phone (optional)</span>
+            <input type="tel" id="d-phone" maxlength="16" placeholder="33 1234 5678">
+          </label>
+        </div>
+        <label><span class="es">Estilo</span><span class="en">Style</span>
+          <div class="stylechips" id="d-style">
+            <button type="button" class="stc on" data-s="min">Minimal</button>
+            <button type="button" class="stc" data-s="dark"><span class="es">Futurista</span><span class="en">Futuristic</span></button>
+            <button type="button" class="stc" data-s="eleg"><span class="es">Elegante</span><span class="en">Elegant</span></button>
+            <button type="button" class="stc" data-s="vib"><span class="es">Vibrante</span><span class="en">Bold</span></button>
+          </div>
+        </label>
+        <label><span class="es">Color de tu marca</span><span class="en">Brand color</span>
+          <div class="swatches" id="d-colors">
+            <button type="button" class="sw on" style="background:#e8542f" data-c="#e8542f" aria-label="naranja"></button>
+            <button type="button" class="sw" style="background:#3b2bff" data-c="#3b2bff" aria-label="azul"></button>
+            <button type="button" class="sw" style="background:#0e8a5f" data-c="#0e8a5f" aria-label="verde"></button>
+            <button type="button" class="sw" style="background:#b8236e" data-c="#b8236e" aria-label="rosa"></button>
+            <button type="button" class="sw" style="background:#c99a2e" data-c="#c99a2e" aria-label="dorado"></button>
+            <label class="sw sw-custom" title="Color personalizado / Custom color">+<input type="color" id="d-custom" value="#7a3bff"></label>
+          </div>
+        </label>
+        <label><span class="es">Secciones</span><span class="en">Sections</span>
+          <div class="toggles">
+            <label class="tg"><input type="checkbox" id="d-gal" checked><span class="es">Galería</span><span class="en">Gallery</span></label>
+            <label class="tg"><input type="checkbox" id="d-stats" checked><span class="es">Cifras</span><span class="en">Stats</span></label>
+            <label class="tg"><input type="checkbox" id="d-testi" checked><span class="es">Testimonio</span><span class="en">Testimonial</span></label>
+          </div>
+        </label>
+        <label><span class="es">Tu logo (opcional)</span><span class="en">Your logo (optional)</span>
+          <span class="d-hint es">Aparece en la barra de navegación de tu demo.</span>
+          <span class="d-hint en">Shows in your demo's navigation bar.</span>
+          <div class="up-row">
+            <label class="up-btn" for="d-logo"><span class="es">Subir logo</span><span class="en">Upload logo</span></label>
+            <input type="file" id="d-logo" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>
+            <div class="thumbs" id="d-logo-th"></div>
+          </div>
+        </label>
+        <label><span class="es">Tus fotos (opcional, hasta 4)</span><span class="en">Your photos (optional, up to 4)</span>
+          <span class="d-hint es">La primera se usa de portada; el resto en la galería. Si no subes, usamos stock profesional de tu industria.</span>
+          <span class="d-hint en">First one becomes the hero; the rest go in the gallery. If you skip this, we use pro stock for your industry.</span>
+          <div class="up-row">
+            <label class="up-btn" for="d-imgs"><span class="es">Subir fotos</span><span class="en">Upload photos</span></label>
+            <input type="file" id="d-imgs" accept="image/png,image/jpeg,image/webp" multiple hidden>
+            <div class="thumbs" id="d-imgs-th"></div>
+          </div>
+        </label>
+        <label><span class="es">Cuéntanos qué quieres (opcional)</span><span class="en">Tell us what you want (optional)</span>
+          <span class="d-hint es">Ej. "a domicilio, citas en línea, 20 años de experiencia, hablamos inglés" — lo detectamos y lo sumamos a tu demo.</span>
+          <span class="d-hint en">E.g. "delivery, online booking, 20 years of experience" — we detect it and add it to your demo.</span>
+          <textarea id="d-desc" maxlength="220" rows="3" placeholder="A domicilio, citas en línea, promociones…"></textarea>
+        </label>
+        <button class="btn demo-go" type="submit"><span class="es">Generar mi demo</span><span class="en">Generate my demo</span></button>
+      </form>
+
+      <div class="preview-col">
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span class="mono" id="d-url">tudemo.thegrongweb.com</span>
+            <button type="button" class="open-full" id="d-open" onclick="openFull()" hidden><span class="es">Abrir completo ↗</span><span class="en">Open full ↗</span></button>
+          </div>
+          <div class="browser-body" id="d-out">
+            <div class="d-empty">
+              <div class="d-empty-icon">✦</div>
+              <p><span class="es">Tu demo aparecerá aquí</span><span class="en">Your demo will appear here</span></p>
+            </div>
+          </div>
+        </div>
+        <p class="preview-tip mono"><span class="es">Tip: el demo es navegable — haz scroll y clic dentro, o ábrelo en pantalla completa.</span><span class="en">Tip: the demo is browsable — scroll and click inside, or open it full screen.</span></p>
+      </div>
+    </div>
+
+    <div class="demo-cta" id="d-cta" hidden>
+      <p><span class="es"><strong>¿Te gusta?</strong> Esto se generó en segundos con plantillas. La versión real la construimos a mano: tus fotos, tus textos, tu dominio, en línea en 5 días.</span><span class="en"><strong>Like it?</strong> This was generated in seconds from templates. The real one we build by hand: your photos, your copy, your domain, live in 5 days.</span></p>
+      <div class="cta-row">
+        <a class="btn" style="background:var(--accent);border-color:var(--accent);color:#fff" href="#precios"><span class="es">Hazla real desde $149 →</span><span class="en">Make it real from $149 →</span></a>
+        <button type="button" class="btn" style="background:#fff;border-color:#fff;color:#0a0a0a" onclick="keepDemo()"><span class="es">Quédatela tal cual — $49</span><span class="en">Keep it as-is — $49</span></button>
+      </div>
+      <div class="cta-row" style="margin-top:12px">
+        <button type="button" class="btn" style="border-color:#444;color:#fff;background:transparent" onclick="openFull()"><span class="es">Ver en pantalla completa ↗</span><span class="en">View full screen ↗</span></button>
+        <!-- PLACEHOLDER: reemplaza con tu URL real de Calendly -->
+        <a class="btn" style="border-color:#444;color:#fff" href="https://calendly.com/TU-USUARIO/llamada-15-min" target="_blank" rel="noopener"><span class="es">Quiero más — hablemos</span><span class="en">I want more — let's talk</span></a>
+      </div>
+      <p class="noimg-note mono" style="margin-top:16px"><span class="es">* Demo Express $49: se publica tal cual (fotos de stock, textos de plantilla) en tunegocio.thegrongweb.com en 24h. Sin revisiones. Los $49 se descuentan completos si subes a Esencial en 30 días.</span><span class="en">* Demo Express $49: published as-is (stock photos, template copy) at yourbusiness.thegrongweb.com within 24h. No revisions. The $49 counts fully toward Essential if you upgrade within 30 days.</span></p>
+      <p class="plan-hint mono" id="d-plan"></p>
+      <div class="share-box">
+        <p class="share-label mono"><span class="es">Tu demo tiene link propio — compártelo o guárdalo:</span><span class="en">Your demo has its own link — share it or save it:</span></p>
+        <div class="share-row">
+          <input type="text" id="d-link" readonly>
+          <button type="button" class="btn-mini" onclick="copyLink(this)"><span class="es">Copiar</span><span class="en">Copy</span></button>
+        </div>
+        <p class="noimg-note mono" id="d-noimg" hidden><span class="es">* El link no incluye tus imágenes subidas (viven solo en este navegador).</span><span class="en">* The link doesn't include your uploaded images (they live only in this browser).</span></p>
+        <!-- PLACEHOLDER: usa tu mismo ID de Formspree (o crea uno aparte para leads del demo) -->
+        <form class="lead-form" onsubmit="sendLead(event)" data-endpoint="https://formspree.io/f/TU_ID_FORMSPREE">
+          <p class="share-label mono"><span class="es">¿Te lo mandamos por correo para que no lo pierdas?</span><span class="en">Want it emailed so you don't lose it?</span></p>
+          <div class="share-row">
+            <input type="email" id="d-email" required placeholder="tu@correo.com">
+            <button class="btn-mini b-acc" type="submit"><span class="es">Enviar</span><span class="en">Send</span></button>
+          </div>
+          <p class="lead-ok" id="d-lead-ok" hidden><span class="es">Listo — te llega en un momento. Revisa spam la primera vez.</span><span class="en">Done — it's on its way. Check spam the first time.</span></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="precios" style="background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <span class="kicker mono"><span class="es">Precios</span><span class="en">Pricing</span></span>
+    <h2><span class="es">Un pago. Tuya para siempre.</span><span class="en">One payment. Yours forever.</span></h2>
+    <p class="lead"><span class="es">Todos los planes incluyen diseño responsive, formulario de contacto, botón de WhatsApp y el primer año de hosting.</span><span class="en">Every plan includes responsive design, contact form, WhatsApp button, and first-year hosting.</span></p>
+    <div class="plans">
+      <div class="plan">
+        <h3><span class="es">Esencial</span><span class="en">Essential</span></h3>
+        <div class="price">$149<small> USD</small></div>
+        <p class="once"><span class="es">pago único</span><span class="en">one-time</span></p>
+        <ul>
+          <li><span class="es">Landing page de 1 página</span><span class="en">1-page landing page</span></li>
+          <li><span class="es">Diseño según tu industria</span><span class="en">Industry-tailored design</span></li>
+          <li><span class="es">Optimizada para celular</span><span class="en">Mobile-optimized</span></li>
+          <li><span class="es">1 ronda de revisiones</span><span class="en">1 revision round</span></li>
+          <li><span class="es">Entrega en 5 días hábiles</span><span class="en">5 business days</span></li>
+        </ul>
+        <!-- PLACEHOLDER: reemplaza con tu Stripe Payment Link del plan Esencial -->
+        <a class="btn btn-ghost" href="https://buy.stripe.com/PLACEHOLDER_ESENCIAL" target="_blank" rel="noopener"><span class="es">Empezar</span><span class="en">Start</span></a>
+      </div>
+      <div class="plan featured">
+        <div class="tag"><span class="es">Más popular</span><span class="en">Most popular</span></div>
+        <h3>Pro</h3>
+        <div class="price">$499<small> USD</small></div>
+        <p class="once"><span class="es">pago único</span><span class="en">one-time</span></p>
+        <ul>
+          <li><span class="es">Sitio de hasta 5 secciones</span><span class="en">Up to 5 sections</span></li>
+          <li><span class="es">Textos redactados por nosotros</span><span class="en">Copywriting included</span></li>
+          <li><span class="es">Galería y testimonios</span><span class="en">Gallery & testimonials</span></li>
+          <li><span class="es">SEO básico + Google Maps</span><span class="en">Basic SEO + Google Maps</span></li>
+          <li><span class="es">3 rondas de revisiones</span><span class="en">3 revision rounds</span></li>
+          <li><span class="es">Dominio .com 1er año incluido</span><span class="en">.com domain 1st year included</span></li>
+        </ul>
+        <!-- PLACEHOLDER: reemplaza con tu Stripe Payment Link del plan Pro -->
+        <a class="btn" href="https://buy.stripe.com/PLACEHOLDER_PRO" target="_blank" rel="noopener"><span class="es">Empezar</span><span class="en">Start</span></a>
+      </div>
+      <div class="plan">
+        <h3>Premium</h3>
+        <div class="price">$1,249<small> USD</small></div>
+        <p class="once"><span class="es">pago único</span><span class="en">one-time</span></p>
+        <ul>
+          <li><span class="es">Todo lo del plan Pro</span><span class="en">Everything in Pro</span></li>
+          <li><span class="es">Hasta 10 páginas + blog</span><span class="en">Up to 10 pages + blog</span></li>
+          <li><span class="es">Reservas / citas en línea</span><span class="en">Online booking system</span></li>
+          <li><span class="es">Sesión de estrategia 1 a 1</span><span class="en">1-on-1 strategy session</span></li>
+          <li><span class="es">Revisiones ilimitadas 30 días</span><span class="en">Unlimited revisions 30 days</span></li>
+          <li><span class="es">3 meses soporte prioritario</span><span class="en">3 months priority support</span></li>
+        </ul>
+        <!-- PLACEHOLDER: reemplaza con tu Stripe Payment Link del plan Premium -->
+        <a class="btn btn-ghost" href="https://buy.stripe.com/PLACEHOLDER_PREMIUM" target="_blank" rel="noopener"><span class="es">Empezar</span><span class="en">Start</span></a>
+      </div>
+    </div>
+    <p class="fine"><span class="es">Garantía: si no te encanta el primer diseño y aún no aprobamos revisiones, te devolvemos el 100% dentro de los primeros 14 días. Renovación de hosting desde el año 2: ~$60 USD/año (opcional — el código es tuyo, puedes llevarte tu sitio a donde quieras).</span><span class="en">Guarantee: if you don't love the first design and no revisions are approved yet, we refund 100% within 14 days. Hosting renewal from year 2: ~$60 USD/yr (optional — you own the code, take your site anywhere).</span></p>
+  </div>
+</section>
+
+<section id="llamada">
+  <div class="wrap split">
+    <div>
+      <span class="kicker mono"><span class="es">¿Aún con dudas?</span><span class="en">Still deciding?</span></span>
+      <h2><span class="es">Agenda 15 minutos</span><span class="en">Book 15 minutes</span></h2>
+      <p class="lead" style="margin-bottom:36px"><span class="es">Sin compromiso y sin discurso de ventas. Vemos tu negocio, te digo exactamente qué plan te conviene (a veces es el más barato) y resuelvo tus preguntas.</span><span class="en">No commitment, no pitch. We look at your business, I tell you exactly which plan fits (sometimes it's the cheapest one), and answer your questions.</span></p>
+      <!-- PLACEHOLDER: reemplaza con tu URL real de Calendly -->
+      <a class="btn btn-primary" href="https://calendly.com/TU-USUARIO/llamada-15-min" target="_blank" rel="noopener"><span class="es">Elegir horario →</span><span class="en">Pick a time →</span></a>
+    </div>
+    <div class="cal-card">
+      <div class="dot"></div>
+      <h3><span class="es">Llamada de descubrimiento</span><span class="en">Discovery call</span></h3>
+      <p class="mono"><span class="es">15 min · Meet o teléfono · ES/EN</span><span class="en">15 min · Meet or phone · EN/ES</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap" style="max-width:760px">
+    <span class="kicker mono">FAQ</span>
+    <h2 style="margin-bottom:48px"><span class="es">Preguntas frecuentes</span><span class="en">Frequently asked</span></h2>
+    <details>
+      <summary><span class="es">¿De verdad no hay mensualidades?</span><span class="en">Really no monthly fees?</span></summary>
+      <div class="a"><span class="es">El diseño es pago único. El hosting del primer año va incluido; desde el segundo año cuesta ~$60 USD/año, o llévate tu sitio a cualquier otro proveedor — el código es tuyo.</span><span class="en">The design is a one-time payment. First-year hosting is included; from year two it's ~$60 USD/yr, or take your site to any provider — you own the code.</span></div>
+    </details>
+    <details>
+      <summary><span class="es">¿Qué pasa si no me gusta el diseño?</span><span class="en">What if I don't like the design?</span></summary>
+      <div class="a"><span class="es">Cada plan incluye rondas de revisión. Y si de plano no te encanta, aplica la garantía de reembolso del 100% en los primeros 14 días (antes de aprobar revisiones).</span><span class="en">Every plan includes revision rounds. If you truly don't love it, the 100% refund guarantee applies within 14 days (before revisions are approved).</span></div>
+    </details>
+    <details>
+      <summary><span class="es">¿Necesito logo, fotos o textos?</span><span class="en">Do I need a logo, photos, or copy?</span></summary>
+      <div class="a"><span class="es">No. Usamos fotos de stock profesionales de tu industria y redactamos los textos por ti (incluido desde Pro; en Esencial usamos la información que nos des).</span><span class="en">No. We use professional stock photos for your industry and write the copy for you (included from Pro; on Essential we use the info you provide).</span></div>
+    </details>
+    <details>
+      <summary><span class="es">Recibí un correo con un preview de mi página — ¿es real?</span><span class="en">I got an email with a preview of my site — is it real?</span></summary>
+      <div class="a"><span class="es">Sí. Creamos previews personalizados para negocios que encontramos en directorios públicos como Google Maps y que aún no tienen página. Es gratis, sin compromiso, y expira en 30 días. ¿No te interesa? Ignóralo o usa el link de baja del correo y no volvemos a contactarte.</span><span class="en">Yes. We build personalized previews for businesses found in public directories like Google Maps that don't have a website yet. It's free, no strings attached, and expires in 30 days. Not interested? Ignore it or use the unsubscribe link and we'll never contact you again.</span></div>
+    </details>
+    <details>
+      <summary><span class="es">¿Puedo quedarme el demo que generé, tal cual?</span><span class="en">Can I keep the demo I generated, as-is?</span></summary>
+      <div class="a"><span class="es">Sí — Demo Express: por $49 USD publicamos tu demo exactamente como lo generaste (con fotos de stock y textos de plantilla) en tunegocio.thegrongweb.com, en menos de 24 horas hábiles. Sin cambios ni revisiones. Y si en los siguientes 30 días subes al plan Esencial, los $49 se descuentan completos.</span><span class="en">Yes — Demo Express: for $49 USD we publish your demo exactly as you generated it (stock photos, template copy) at yourbusiness.thegrongweb.com within 24 business hours. No changes or revisions. And if you upgrade to Essential within 30 days, the $49 counts fully toward it.</span></div>
+    </details>
+    <details>
+      <summary><span class="es">¿En cuánto tiempo está lista?</span><span class="en">How long does it take?</span></summary>
+      <div class="a"><span class="es">Esencial: 5 días hábiles. Pro: 7 días hábiles. Premium: 10–14 días hábiles. El reloj corre desde que recibimos tu formulario completo.</span><span class="en">Essential: 5 business days. Pro: 7 business days. Premium: 10–14 business days. The clock starts when we get your completed form.</span></div>
+    </details>
+    <details>
+      <summary><span class="es">¿Facturan? ¿Qué métodos de pago aceptan?</span><span class="en">Do you invoice? What payment methods?</span></summary>
+      <div class="a"><span class="es">Tarjeta de crédito/débito vía Stripe (MXN y USD). Emitimos comprobante; si necesitas factura fiscal, indícalo en el formulario.</span><span class="en">Credit/debit card via Stripe (USD and MXN). We issue receipts; invoices on request.</span></div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="logo" href="#">thegrong<i>web</i></a>
+      <p class="addr">
+        <!-- PLACEHOLDER LEGAL: dirección física real requerida por CAN-SPAM en tus correos y recomendada aquí -->
+        <span class="es">TheGrongWeb · [Tu calle y número, Ciudad, Estado, CP, País] · hey@wirdolab.com</span>
+        <span class="en">TheGrongWeb · [Your street address, City, State, ZIP, Country] · hey@wirdolab.com</span>
+      </p>
+      <p class="addr">© <span id="yr"></span> TheGrongWeb. <span class="es">Todos los derechos reservados.</span><span class="en">All rights reserved.</span></p>
+      <p class="addr" style="margin-top:6px">imagined by <a href="#" style="color:var(--accent);text-decoration:none">TheGrongProtocol</a> ✦</p>
+    </div>
+    <div class="foot-links">
+      <a href="privacidad.html"><span class="es">Aviso de privacidad</span><span class="en">Privacy policy</span></a>
+      <a href="terminos.html"><span class="es">Términos y reembolsos</span><span class="en">Terms & refunds</span></a>
+      <a href="mailto:hey@wirdolab.com"><span class="es">Contacto</span><span class="en">Contact</span></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  function setLang(l){
+    document.body.className = 'lang-' + l;
+    document.documentElement.lang = l;
+    try{localStorage.setItem('tgw-lang', l)}catch(e){}
+  }
+  function toggleLang(){
+    setLang(document.body.classList.contains('lang-es') ? 'en' : 'es');
+  }
+  (function(){
+    var saved = null;
+    try{saved = localStorage.getItem('tgw-lang')}catch(e){}
+    if(saved){ setLang(saved); return; }
+    var nav = (navigator.language || 'es').toLowerCase();
+    setLang(nav.startsWith('es') ? 'es' : 'en');
+  })();
+
+  /* ============ DEMO GENERATOR v3 ============ */
+  var IND = {
+    rest:{ph:['photo-1517248135467-4c7edcad34c4','photo-1555396273-367ea4eb4db5','photo-1414235077428-338989a2e8c0'],
+      es:{n:'Restaurante',h:'Cocina que se vuelve costumbre',sub:'Ingredientes frescos, recetas de siempre y un lugar al que quieres volver.',cta:'Reservar mesa',s:[['Menú de temporada','Platillos que cambian con lo mejor de cada estación.'],['Para llevar y a domicilio','Tu orden lista en minutos, pide por WhatsApp.'],['Eventos privados','Banquetes y reservaciones para grupos y celebraciones.']],st:[['15+','años sirviendo'],['4.8','en Google'],['300+','platillos al día']],q:['La mejor comida de la zona, sin discusión. El servicio siempre impecable.','Reseña de Google']},
+      en:{n:'Restaurant',h:'Food worth coming back for',sub:'Fresh ingredients, honest recipes, and a place that feels like yours.',cta:'Book a table',s:[['Seasonal menu','Dishes built around the best of every season.'],['Takeout & delivery','Ready in minutes — order via WhatsApp.'],['Private events','Catering and reservations for groups and celebrations.']],st:[['15+','years serving'],['4.8','on Google'],['300+','dishes a day']],q:['Best food in the area, hands down. Service is always on point.','Google review']}},
+    cafe:{ph:['photo-1495474472287-4d71bcdd2085','photo-1501339847302-ac426a4a7cbb','photo-1509042239860-f550ce710b93'],
+      es:{n:'Cafetería',h:'Café de especialidad, todos los días',sub:'Granos seleccionados, baristas que saben lo que hacen y un espacio para quedarse.',cta:'Visítanos',s:[['Barra de espresso','Métodos de extracción y granos de origen único.'],['Repostería artesanal','Horneado del día, todos los días.'],['Espacio para trabajar','WiFi rápido, enchufes y buena luz.']],st:[['100%','grano de origen'],['4.9','en Google'],['7am','abrimos diario']],q:['Mi oficina favorita. El flat white es otro nivel.','Reseña de Google']},
+      en:{n:'Coffee shop',h:'Specialty coffee, every day',sub:'Hand-picked beans, baristas who care, and a space worth staying in.',cta:'Visit us',s:[['Espresso bar','Single-origin beans and brew methods.'],['Fresh pastries','Baked daily, in-house.'],['Work-friendly','Fast WiFi, outlets, and great light.']],st:[['100%','single origin'],['4.9','on Google'],['7am','open daily']],q:['My favorite office. The flat white is on another level.','Google review']}},
+    salud:{ph:['photo-1576091160399-112ba8d25d1d','photo-1579684385127-1ef15d508118','photo-1538108149393-fbbd81895907'],
+      es:{n:'Clínica',h:'Cuidamos lo más importante: tú',sub:'Atención médica clara, puntual y humana, con especialistas certificados.',cta:'Agendar cita',s:[['Consulta general','Diagnóstico completo con tiempo real para escucharte.'],['Especialidades','Red de especialistas certificados en un solo lugar.'],['Seguimiento continuo','Tu expediente y avance, siempre a la mano.']],st:[['20+','especialistas'],['98%','pacientes satisfechos'],['24h','respuesta a urgencias']],q:['Por fin una clínica donde te explican todo con calma.','Paciente verificado']},
+      en:{n:'Clinic',h:'Your health comes first',sub:'Clear, on-time, human healthcare from certified specialists.',cta:'Book appointment',s:[['General practice','Full checkups with real time to listen.'],['Specialties','Certified specialists under one roof.'],['Ongoing care','Your records and progress, always at hand.']],st:[['20+','specialists'],['98%','patient satisfaction'],['24h','urgent response']],q:['Finally a clinic that takes time to explain everything.','Verified patient']}},
+    belleza:{ph:['photo-1560066984-138dadb4c035','photo-1522337660859-02fbefca4702','photo-1487412947147-5cebf100ffc2'],
+      es:{n:'Salón de belleza',h:'Belleza con firma propia',sub:'Color, corte y tratamientos hechos para ti, no para la tendencia en turno.',cta:'Reservar cita',s:[['Color y corte','Técnicas actuales con productos premium.'],['Tratamientos','Recuperación profunda para tu cabello y piel.'],['Novias y eventos','El look perfecto para tu día importante.']],st:[['10+','años de oficio'],['4.9','en Google'],['1k+','clientas felices']],q:['Nunca había salido tan feliz de un salón. Entienden lo que pides.','Clienta verificada']},
+      en:{n:'Beauty salon',h:'Beauty, signed by you',sub:'Color, cuts and treatments made for you — not for whatever is trending.',cta:'Book now',s:[['Color & cut','Modern techniques, premium products.'],['Treatments','Deep repair for hair and skin.'],['Bridal & events','The right look for your big day.']],st:[['10+','years of craft'],['4.9','on Google'],['1k+','happy clients']],q:['Never left a salon this happy. They actually listen.','Verified client']}},
+    barber:{ph:['photo-1585747860715-2ba37e788b70','photo-1503951914875-452162b0f3f1','photo-1521490878406-4bcd3b0d9d1e'],
+      es:{n:'Barbería',h:'El corte que te representa',sub:'Técnica clásica, ambiente de barrio y atención sin prisas.',cta:'Reservar silla',s:[['Corte clásico','Tijera y máquina con acabado perfecto.'],['Barba y afeitado','Toalla caliente, navaja y precisión.'],['Membresías','Tu corte mensual, siempre agendado.']],st:[['4.9','en Google'],['30min','por servicio'],['0','esperas con cita']],q:['El único lugar donde el corte queda igual de bien cada vez.','Cliente verificado']},
+      en:{n:'Barbershop',h:'A cut that means business',sub:'Classic technique, neighborhood feel, zero rush.',cta:'Book a chair',s:[['Classic cuts','Scissor and clipper work, perfect finish.'],['Beard & shave','Hot towel, straight razor, precision.'],['Memberships','Your monthly cut, always booked.']],st:[['4.9','on Google'],['30min','per service'],['0','wait with booking']],q:['Only place where the cut comes out right every single time.','Verified client']}},
+    taller:{ph:['photo-1486262715619-67b85e0b08d3','photo-1487754180451-c456f719a1fc','photo-1580273916550-e323be2ae537'],
+      es:{n:'Taller mecánico',h:'Tu coche en manos expertas',sub:'Diagnóstico honesto, refacciones originales y garantía por escrito.',cta:'Pedir presupuesto',s:[['Diagnóstico computarizado','Sabemos qué tiene antes de abrir el cofre.'],['Frenos y suspensión','Seguridad primero, con piezas certificadas.'],['Mantenimiento preventivo','Que no te deje tirado: servicio programado.']],st:[['12+','años de experiencia'],['100%','garantía escrita'],['24h','entrega promedio']],q:['Te dicen la verdad y cobran lo justo. No cambio de taller.','Cliente verificado']},
+      en:{n:'Auto repair',h:'Your car, in expert hands',sub:'Honest diagnostics, OEM parts, written warranty.',cta:'Get an estimate',s:[['Computer diagnostics','We know the issue before opening the hood.'],['Brakes & suspension','Safety first, certified parts.'],['Preventive maintenance','Scheduled service so it never leaves you stranded.']],st:[['12+','years experience'],['100%','written warranty'],['24h','average turnaround']],q:['They tell you the truth and charge fair. Not switching shops.','Verified customer']}},
+    hogar:{ph:['photo-1581578731548-c64695cc6952','photo-1621905251189-08b45d6a269e','photo-1556909114-f6e7ad7d3136'],
+      es:{n:'Servicios del hogar',h:'Tu casa en buenas manos',sub:'Plomería, electricidad y remodelación con gente puntual y trabajo garantizado.',cta:'Solicitar visita',s:[['Plomería y electricidad','Reparaciones bien hechas a la primera.'],['Remodelaciones','De la idea al resultado, sin sorpresas de presupuesto.'],['Urgencias','Respuesta rápida cuando más lo necesitas.']],st:[['500+','trabajos realizados'],['4.8','en Google'],['90d','garantía en reparaciones']],q:['Llegaron a tiempo, cotizaron justo y dejaron todo limpio.','Cliente verificado']},
+      en:{n:'Home services',h:'Your home, handled',sub:'Plumbing, electrical and remodeling — on time, guaranteed.',cta:'Request a visit',s:[['Plumbing & electrical','Repairs done right the first time.'],['Remodeling','From idea to result, no budget surprises.'],['Emergencies','Fast response when you need it most.']],st:[['500+','jobs completed'],['4.8','on Google'],['90d','repair warranty']],q:['On time, fair quote, left everything spotless.','Verified customer']}},
+    prof:{ph:['photo-1497366216548-37526070297c','photo-1521791136064-7986c2920216','photo-1450101499163-c8848c66ca85'],
+      es:{n:'Despacho profesional',h:'Criterio experto, resultados medibles',sub:'Asesoría clara y sin letras chiquitas para personas y empresas.',cta:'Agendar consulta',s:[['Consultoría','Estrategia a tu medida, explicada en tu idioma.'],['Representación','Defendemos tu caso como si fuera nuestro.'],['Cumplimiento','Al día con obligaciones fiscales y legales.']],st:[['18+','años de práctica'],['95%','casos resueltos'],['1a','consulta sin costo']],q:['Resolvieron en semanas lo que llevaba años atorado.','Cliente verificado']},
+      en:{n:'Professional firm',h:'Expert judgment, measurable results',sub:'Clear advice, no fine print — for people and businesses.',cta:'Book a consult',s:[['Consulting','Tailored strategy, explained in plain language.'],['Representation','We defend your case like our own.'],['Compliance','Up to date with legal and tax obligations.']],st:[['18+','years of practice'],['95%','cases resolved'],['1st','consult free']],q:['They solved in weeks what was stuck for years.','Verified client']}},
+    fit:{ph:['photo-1534438327276-14e5300c3a48','photo-1571019613454-1cb2f99b2d8b','photo-1517836357463-d25dfeac3438'],
+      es:{n:'Gimnasio',h:'Más fuerte que tus excusas',sub:'Entrenamiento con método, comunidad que empuja y resultados que se miden.',cta:'Clase de prueba gratis',s:[['Planes personalizados','Programa a tu nivel, revisado cada mes.'],['Clases grupales','Energía de equipo, horarios todo el día.'],['Nutrición','Acompañamiento real, sin dietas mágicas.']],st:[['6am','a 10pm'],['30+','clases por semana'],['1a','clase gratis']],q:['En tres meses logré lo que no pude en tres años solo.','Miembro verificado']},
+      en:{n:'Gym',h:'Stronger than your excuses',sub:'Structured training, a community that pushes you, results you can measure.',cta:'Free trial class',s:[['Custom plans','Programs at your level, reviewed monthly.'],['Group classes','Team energy, sessions all day long.'],['Nutrition','Real coaching, no magic diets.']],st:[['6am','to 10pm'],['30+','classes weekly'],['1st','class free']],q:['Three months here beat three years on my own.','Verified member']}},
+    tienda:{ph:['photo-1441986300917-64674bd600d8','photo-1472851294608-062f824d29cc','photo-1567401893414-76b7b1e5a7a5'],
+      es:{n:'Tienda',h:'Curado con obsesión',sub:'Cada pieza en nuestro catálogo está elegida a mano. Nada de relleno.',cta:'Ver catálogo',s:[['Nuevas llegadas','Lo nuevo cada semana, primero en WhatsApp.'],['Ediciones limitadas','Piezas que no vas a encontrar en otro lado.'],['Envíos nacionales','A todo el país en 24–48 horas.']],st:[['24-48h','envío nacional'],['4.8','en Google'],['100%','pago seguro']],q:['Calidad de verdad y atención de tienda de barrio.','Reseña de Google']},
+      en:{n:'Retail shop',h:'Curated with obsession',sub:'Every piece in our catalog is hand-picked. Zero filler.',cta:'Browse catalog',s:[['New arrivals','Fresh drops weekly — first on WhatsApp.'],['Limited editions','Pieces you will not find anywhere else.'],['Nationwide shipping','Anywhere in the country in 24–48h.']],st:[['24-48h','shipping'],['4.8','on Google'],['100%','secure checkout']],q:['Real quality with corner-store service.','Google review']}},
+    vet:{ph:['photo-1548199973-03cce0bbc87b','photo-1583337130417-3346a1be7dee','photo-1450778869180-41d0601e046e'],
+      es:{n:'Veterinaria',h:'Los cuidamos como tú los quieres',sub:'Medicina veterinaria con cariño de verdad y equipo de última generación.',cta:'Agendar cita',s:[['Consulta y vacunas','Plan de salud completo para cada etapa.'],['Cirugía','Quirófano equipado y hospitalización.'],['Estética y baño','Regresan limpios, felices y oliendo increíble.']],st:[['24/7','urgencias'],['4.9','en Google'],['5k+','pacientes peludos']],q:['Tratan a mi perro mejor que mi doctor a mí.','Cliente verificado']},
+      en:{n:'Vet clinic',h:'We care like you do',sub:'Veterinary medicine with real affection and modern equipment.',cta:'Book a visit',s:[['Checkups & vaccines','Complete health plans for every life stage.'],['Surgery','Equipped OR and hospitalization.'],['Grooming','They come back clean, happy, smelling great.']],st:[['24/7','emergencies'],['4.9','on Google'],['5k+','furry patients']],q:['They treat my dog better than my doctor treats me.','Verified client']}},
+    inmo:{ph:['photo-1560518883-ce09059eeffa','photo-1564013799919-ab600027ffc6','photo-1512917774080-9991f1c4c750'],
+      es:{n:'Inmobiliaria',h:'La propiedad correcta sí existe',sub:'Compra, venta y renta con datos reales del mercado y cero presión.',cta:'Agendar visita',s:[['Venta','Tu propiedad al mejor precio, en menos tiempo.'],['Renta','Inquilinos verificados y contratos blindados.'],['Inversión','Asesoría con números, no con corazonadas.']],st:[['200+','operaciones cerradas'],['45d','venta promedio'],['0','costos ocultos']],q:['Vendieron en seis semanas lo que otra agencia no pudo en un año.','Cliente verificado']},
+      en:{n:'Real estate',h:'The right property exists',sub:'Buy, sell and rent with real market data and zero pressure.',cta:'Schedule a tour',s:[['Selling','Best price for your property, in less time.'],['Renting','Verified tenants, bulletproof contracts.'],['Investment','Advice built on numbers, not hunches.']],st:[['200+','closed deals'],['45d','average sale'],['0','hidden fees']],q:['Sold in six weeks what another agency could not in a year.','Verified client']}},
+    foto:{ph:['photo-1452587925148-ce544e77e70d','photo-1502920917128-1aa500764cbd','photo-1554048612-b6a482bc67e5'],
+      es:{n:'Estudio creativo',h:'Momentos que no se repiten',sub:'Fotografía y video con dirección de arte, para personas y marcas.',cta:'Cotizar sesión',s:[['Retrato','Sesiones que capturan quién eres de verdad.'],['Bodas y eventos','Cobertura completa sin poses forzadas.'],['Marca y producto','Imagen que vende, lista para tus redes.']],st:[['300+','sesiones'],['48h','primeras fotos'],['100%','derechos incluidos']],q:['Las fotos de nuestra boda parecen de revista.','Cliente verificado']},
+      en:{n:'Creative studio',h:"Moments that don't repeat",sub:'Photo and video with art direction, for people and brands.',cta:'Get a quote',s:[['Portrait','Sessions that capture who you really are.'],['Weddings & events','Full coverage, no forced poses.'],['Brand & product','Imagery that sells, ready for your feeds.']],st:[['300+','sessions'],['48h','first previews'],['100%','rights included']],q:['Our wedding photos look straight out of a magazine.','Verified client']}},
+    edu:{ph:['photo-1503676260728-1c00da094a0b','photo-1523050854058-8df90110c9f1','photo-1509062522246-3755977927d7'],
+      es:{n:'Escuela',h:'Aprende lo que sí se usa',sub:'Cursos prácticos con profesores que trabajan en lo que enseñan.',cta:'Inscríbete',s:[['Presencial','Grupos pequeños y práctica real desde el día uno.'],['En línea','Aprende a tu ritmo con mentores en vivo.'],['Certificaciones','Valida tus habilidades con respaldo oficial.']],st:[['2k+','egresados'],['92%','terminan el curso'],['15','alumnos por grupo máx']],q:['En dos meses aprendí más que en dos años de universidad.','Egresado verificado']},
+      en:{n:'School',h:'Learn what actually matters',sub:'Hands-on courses taught by people who work in what they teach.',cta:'Enroll now',s:[['In person','Small groups, real practice from day one.'],['Online','Learn at your pace with live mentors.'],['Certifications','Validate your skills with official backing.']],st:[['2k+','graduates'],['92%','completion rate'],['15','students per group max']],q:['Learned more in two months than two years of college.','Verified graduate']}}
+  };
+  /* signature photos per industry (dishes, products, properties, portfolio) */
+  var SPH = {
+    rest:['photo-1565299624946-b28f40a0ae38','photo-1550317138-10000687a72b','photo-1546069901-ba9599a7e63c','photo-1565958011703-44f9829ba187'],
+    cafe:['photo-1541167760496-1628856ab772','photo-1555507036-ab1f4038808a','photo-1578985545062-69928b1d9587','photo-1447933601403-0c6688de566e'],
+    tienda:['photo-1523275335684-37898b6baf30','photo-1542291026-7eec264c27ff','photo-1526170375885-4d8ecf77b99f','photo-1560343090-f0409e92791a'],
+    inmo:['photo-1568605114967-8130f3a36994','photo-1570129477492-45c003edd2be','photo-1583608205776-bfd35f0d9f83'],
+    foto:['photo-1529626455594-4ff0802cfb7e','photo-1519741497674-611481863552','photo-1526947425960-945c6e72858f','photo-1516035069371-29a1b244cc32']
+  };
+  /* signature module per industry: k=menu|prods|steps|sched|port */
+  var SIG = {
+    rest:{es:{k:'menu',t:'Menú',h:'Lo que tienes que probar',it:[['Taco al pastor','Trompo tradicional, piña asada y salsa de la casa','$95',0],['Especialidad del chef','El platillo estrella, con ingredientes de temporada','$180',1],['Bowl fresco','Mezcla verde, proteína a elegir y aderezo artesanal','$120',2],['Postre de la casa','Hecho aquí cada mañana — pregunta el del día','$75',3]]},
+         en:{k:'menu',t:'Menu',h:'What you have to try',it:[['House taco','Traditional spit, grilled pineapple, house salsa','$9',0],['Chef special','Our star dish, built on seasonal ingredients','$18',1],['Fresh bowl','Greens, your choice of protein, house dressing','$12',2],['House dessert','Baked here every morning — ask for today’s','$7',3]]}},
+    cafe:{es:{k:'menu',t:'Carta',h:'De la barra a tu mesa',it:[['Espresso doble','Grano de origen único, tueste medio','$48',3],['Latte de la casa','Arte latte incluido, leche de tu elección','$68',0],['Croissant artesanal','Horneado cada mañana, mantequilla europea','$55',1],['Pastel del día','Receta de temporada — pregunta cuál toca hoy','$70',2]]},
+         en:{k:'menu',t:'Menu',h:'From the bar to your table',it:[['Double espresso','Single-origin beans, medium roast','$4.50',3],['House latte','Latte art included, any milk you like','$6',0],['Fresh croissant','Baked every morning, European butter','$5',1],['Cake of the day','Seasonal recipe — ask what’s on today','$6.50',2]]}},
+    salud:{es:{k:'steps',t:'Tu primera visita',h:'Así de simple es empezar',it:[['Agenda tu cita','En línea o por WhatsApp, sin llamadas eternas.'],['Valoración completa','Historia clínica y diagnóstico con calma.'],['Plan de tratamiento','Opciones claras, costos por escrito.'],['Seguimiento','Tu avance monitoreado, recordatorios incluidos.']]},
+          en:{k:'steps',t:'Your first visit',h:'Getting started is this simple',it:[['Book your visit','Online or via WhatsApp, no endless calls.'],['Full assessment','Medical history and unhurried diagnosis.'],['Treatment plan','Clear options, costs in writing.'],['Follow-up','Progress tracked, reminders included.']]}},
+    belleza:{es:{k:'menu',t:'Precios',h:'Servicios y tarifas',it:[['Corte y estilo','Incluye lavado, asesoría y peinado','$350'],['Color completo','Aplicación, matiz y tratamiento post-color','$950'],['Alaciado / keratina','Resultado por hasta 4 meses','$1,200'],['Manicure spa','Limpieza, hidratación y esmaltado','$280']]},
+            en:{k:'menu',t:'Pricing',h:'Services & rates',it:[['Cut & style','Includes wash, consult and blow-dry','$35'],['Full color','Application, toner and post-color treatment','$95'],['Keratin treatment','Results for up to 4 months','$120'],['Spa manicure','Cleanup, hydration and polish','$28']]}},
+    barber:{es:{k:'menu',t:'Precios',h:'Directo y sin vueltas',it:[['Corte clásico','Tijera, máquina y acabado con navaja','$180'],['Corte + barba','El paquete completo, toalla caliente incluida','$280'],['Afeitado tradicional','Navaja, toalla caliente y aftershave','$150'],['Membresía mensual','Corte ilimitado, tu silla siempre lista','$599/mes']]},
+           en:{k:'menu',t:'Pricing',h:'Straight up, no fuss',it:[['Classic cut','Scissors, clippers, razor finish','$18'],['Cut + beard','The full package, hot towel included','$28'],['Traditional shave','Straight razor, hot towel, aftershave','$15'],['Monthly membership','Unlimited cuts, your chair always ready','$59/mo']]}},
+    taller:{es:{k:'steps',t:'Nuestro proceso',h:'De la falla a la entrega',it:[['Diagnóstico sin costo','Escaneo computarizado y revisión física.'],['Cotización transparente','Precio cerrado por escrito antes de tocar nada.'],['Reparación con garantía','Refacciones originales y evidencia fotográfica.'],['Entrega puntual','Prueba de manejo incluida y garantía por escrito.']]},
+           en:{k:'steps',t:'Our process',h:'From breakdown to handover',it:[['Free diagnosis','Computer scan plus physical inspection.'],['Transparent quote','Fixed price in writing before we touch anything.'],['Guaranteed repair','OEM parts and photo evidence.'],['On-time delivery','Test drive included, written warranty.']]}},
+    hogar:{es:{k:'steps',t:'Cómo trabajamos',h:'Sin sorpresas, de principio a fin',it:[['Cuéntanos el problema','Fotos o video por WhatsApp bastan para empezar.'],['Visita y cotización','Precio justo por escrito, sin letra chiquita.'],['Trabajo garantizado','Material de calidad y área de trabajo limpia.'],['Pagas al terminar','Cuando esté funcionando y tú lo apruebes.']]},
+          en:{k:'steps',t:'How we work',h:'No surprises, start to finish',it:[['Tell us the problem','Photos or video via WhatsApp are enough.'],['Visit & quote','Fair written price, no fine print.'],['Guaranteed work','Quality materials, clean work area.'],['Pay when done','Once it works and you approve it.']]}},
+    prof:{es:{k:'steps',t:'Cómo empezamos',h:'De la consulta al resultado',it:[['Consulta inicial gratis','Escuchamos tu caso y te decimos si podemos ayudar.'],['Estrategia y propuesta','Plan de acción con alcance y honorarios claros.'],['Ejecución','Te mantenemos al tanto en cada avance.'],['Resultados y reporte','Cierre documentado y siguientes pasos.']]},
+         en:{k:'steps',t:'How we start',h:'From consult to outcome',it:[['Free initial consult','We hear your case and tell you if we can help.'],['Strategy & proposal','Action plan with clear scope and fees.'],['Execution','You stay informed at every step.'],['Results & report','Documented closure and next steps.']]}},
+    fit:{es:{k:'sched',t:'Horarios',h:'Encuentra tu hora',hd:['Hora','Lunes a viernes','Sábado'],it:[['6:00','CrossFit','HIIT'],['9:00','Yoga','Funcional'],['13:00','Open box','Open box'],['19:00','Funcional','—'],['20:00','Box / Kickboxing','—']]},
+        en:{k:'sched',t:'Schedule',h:'Find your hour',hd:['Time','Mon–Fri','Saturday'],it:[['6:00','CrossFit','HIIT'],['9:00','Yoga','Functional'],['13:00','Open box','Open box'],['19:00','Functional','—'],['20:00','Boxing / Kickboxing','—']]}},
+    tienda:{es:{k:'prods',t:'Catálogo',h:'Lo más vendido',it:[['Pieza destacada','Edición numerada','$899',0],['Nueva llegada','Recién salió de aduana','$649',2],['Edición limitada','Quedan pocas piezas','$1,299',1],['Clásico de la casa','El que siempre se agota','$499',3]]},
+           en:{k:'prods',t:'Catalog',h:'Best sellers',it:[['Featured piece','Numbered edition','$89',0],['New arrival','Just cleared customs','$64',2],['Limited edition','Few pieces left','$129',1],['House classic','The one that always sells out','$49',3]]}},
+    vet:{es:{k:'menu',t:'Servicios',h:'Tarifas claras, cero sorpresas',it:[['Consulta general','Revisión completa y plan de salud','$350'],['Vacunación','Esquema completo para su etapa','$250'],['Baño y estética','Incluye corte de uñas y limpieza de oídos','$300'],['Urgencia 24/7','Atención inmediata, cualquier hora','$600']]},
+        en:{k:'menu',t:'Services',h:'Clear rates, zero surprises',it:[['General checkup','Full exam and health plan','$35'],['Vaccination','Complete schedule for their stage','$25'],['Bath & grooming','Includes nail trim and ear cleaning','$30'],['24/7 emergency','Immediate care, any hour','$60']]}},
+    inmo:{es:{k:'prods',t:'Propiedades',h:'Destacadas de la semana',it:[['Casa 3 recámaras','Jardín y cochera doble','$2.4M',0],['Depto céntrico 2 rec','A pasos de todo, listo para habitar','$1.8M',2],['Residencia 4 rec','Acabados premium, zona privada','$3.9M',1]]},
+         en:{k:'prods',t:'Listings',h:'Featured this week',it:[['3-bedroom home','Garden and 2-car garage','$240k',0],['Downtown condo, 2BR','Steps from everything, move-in ready','$180k',2],['4-bedroom residence','Premium finishes, gated community','$390k',1]]}},
+    foto:{es:{k:'port',t:'Portafolio',h:'Trabajo reciente'},
+         en:{k:'port',t:'Portfolio',h:'Recent work'}},
+    edu:{es:{k:'menu',t:'Programas',h:'Elige tu ruta',it:[['Curso intensivo','8 semanas · práctica desde el día 1','$4,900'],['Programa completo','6 meses · incluye certificación','$14,900'],['Taller de fin de semana','2 días · cupo de 15 personas','$1,800'],['Mentoría 1 a 1','Mensual · plan a tu medida','$2,500/mes']]},
+        en:{k:'menu',t:'Programs',h:'Pick your path',it:[['Intensive course','8 weeks · hands-on from day 1','$490'],['Full program','6 months · certification included','$1,490'],['Weekend workshop','2 days · capped at 15 people','$180'],['1-on-1 mentoring','Monthly · plan built around you','$250/mo']]}}
+  };
+  /* layout archetypes: each industry group gets a structurally different site */
+  var ARCHMAP={rest:'feast',cafe:'feast',salud:'care',vet:'care',taller:'trade',hogar:'trade',belleza:'studio',barber:'studio',foto:'studio',tienda:'market',inmo:'market',fit:'energy',prof:'firm',edu:'firm'};
+  var ARCHLBL={feast:{es:'carta primero',en:'menu-first'},care:{es:'clínico limpio',en:'clean care'},trade:{es:'industrial',en:'industrial'},studio:{es:'visual primero',en:'visual-first'},market:{es:'catálogo primero',en:'catalog-first'},energy:{es:'alto impacto',en:'high energy'},firm:{es:'corporativo',en:'corporate'}};
+  var ARCHORD={feast:['sig','services','quote','gal','stats'],care:['services','sig','stats','quote','gal'],trade:['sig','stats','services','gal','quote'],studio:['gal','sig','services','quote','stats'],market:['sig','services','gal','quote','stats'],energy:['sig','stats','services','gal','quote'],firm:['services','sig','quote','stats','gal']};
+  var ARCHHERO={feast:'poster',studio:'poster',care:'split',firm:'split',trade:'band',market:'band',energy:'full'};
+  var KW = [
+    [/domicilio|delivery|reparto/i,'A domicilio','Delivery'],
+    [/reserva|cita|booking|appointment|agendar/i,'Citas en línea','Online booking'],
+    [/24\s*(h|horas|\/7)/i,'Abierto 24/7','Open 24/7'],
+    [/env[ií]o|shipping/i,'Envíos','Shipping'],
+    [/factur|invoice/i,'Facturamos','Invoicing'],
+    [/promo|descuento|discount|oferta|deal/i,'Promociones','Deals'],
+    [/vegan/i,'Opciones veganas','Vegan options'],
+    [/estacionamiento|parking/i,'Estacionamiento','Parking'],
+    [/wifi/i,'WiFi gratis','Free WiFi'],
+    [/ingl[eé]s|english|biling|espa[ñn]ol/i,'Hablamos inglés','Se habla español'],
+    [/años|experiencia|years|experience/i,'Años de experiencia','Years of experience'],
+    [/garant[ií]a|warranty/i,'Garantía','Warranty'],
+    [/urgencia|emergencia|emergency/i,'Urgencias','Emergencies'],
+    [/tarjeta|card|pago/i,'Aceptamos tarjeta','Cards accepted']
+  ];
+  var demoColor='#e8542f', demoStyle='min', demoRun=0, lastDemoHTML='';
+  document.getElementById('d-colors').addEventListener('click',function(e){
+    var b=e.target.closest('.sw'); if(!b||b.classList.contains('sw-custom'))return;
+    this.querySelectorAll('.sw').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on'); demoColor=b.dataset.c;
+  });
+  document.getElementById('d-custom').addEventListener('input',function(){
+    document.querySelectorAll('#d-colors .sw').forEach(function(x){x.classList.remove('on')});
+    this.parentElement.classList.add('on'); demoColor=this.value;
+  });
+  document.getElementById('d-style').addEventListener('click',function(e){
+    var b=e.target.closest('.stc'); if(!b)return;
+    this.querySelectorAll('.stc').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on'); demoStyle=b.dataset.s;
+  });
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+  function rgba(hex,a){var n=parseInt(hex.slice(1),16);return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')'}
+  function img(id,w){return 'https://images.unsplash.com/'+id+'?auto=format&fit=crop&w='+(w||1200)+'&q=70'}
+
+  function genSiteHTML(o){
+    var t=IND[o.ind][o.lang], L=o.lang==='es';
+    var sig=SIG[o.ind]?SIG[o.ind][o.lang]:null, sph=SPH[o.ind]||null;
+    var sigSection='';
+    if(sig){
+      var body='';
+      if(sig.k==='menu'){
+        body='<div class="sigm">'+sig.it.map(function(m,i){
+          var ph=(m.length>3&&sph)?'<img class="mim" src="'+img(sph[m[3]],300)+'" alt="" loading="lazy" onerror="this.remove()">':'';
+          return '<div class="mi r" style="transition-delay:'+(i*80)+'ms">'+ph+'<div class="bd"><div class="tr"><h3>'+m[0]+'</h3><span class="dots"></span><b>'+m[2]+'</b></div><p>'+m[1]+'</p></div></div>';
+        }).join('')+'</div>';
+      } else if(sig.k==='prods'){
+        body='<div class="prods">'+sig.it.map(function(m,i){
+          return '<div class="pc r" style="transition-delay:'+(i*90)+'ms"><img src="'+img(sph[m[3]],700)+'" alt="" loading="lazy" onerror="this.remove()"><div class="bd"><h3>'+m[0]+'</h3><p>'+m[1]+'</p><b>'+m[2]+'</b></div></div>';
+        }).join('')+'</div>';
+      } else if(sig.k==='steps'){
+        body='<div class="stepsx">'+sig.it.map(function(m,i){
+          return '<div class="sx r" style="transition-delay:'+(i*90)+'ms"><span class="n2">'+(L?'PASO':'STEP')+' 0'+(i+1)+'</span><h3>'+m[0]+'</h3><p>'+m[1]+'</p></div>';
+        }).join('')+'</div>';
+      } else if(sig.k==='sched'){
+        body='<div class="r"><table class="schx"><tr>'+sig.hd.map(function(h){return '<th>'+h+'</th>'}).join('')+'</tr>'+sig.it.map(function(row){return '<tr>'+row.map(function(cd){return '<td>'+cd+'</td>'}).join('')+'</tr>'}).join('')+'</table></div>';
+      } else if(sig.k==='port'){
+        body='<div class="portx">'+sph.map(function(id,i){return '<img class="r" style="transition-delay:'+(i*80)+'ms" src="'+img(id,700)+'" alt="" loading="lazy" onerror="this.remove()">'}).join('')+'</div>';
+      }
+      sigSection='<section id="destacado"'+(sig.k==='menu'||sig.k==='sched'?' style="padding-top:0"':'')+'><div class="w"><p class="k2 r">'+sig.t+'</p><h2 class="r">'+sig.h+'</h2>'+body+'</div></section>';
+    }
+    var ui=o.imgs||[];
+    var c=o.color, hero=ui[0]||img(o.photos[0],1400), g1=ui[1]||img(o.photos[1],800), g2=ui[2]||img(o.photos[2],800);
+    var brand=o.logo?'<img src="'+o.logo+'" alt="" style="height:30px;width:auto;max-width:120px;object-fit:contain;vertical-align:middle;margin-right:10px">':'';
+    var digits=(o.phone||'').replace(/\D/g,'');
+    var waHref=digits?'https://wa.me/'+digits:'#contacto';
+    var telHref=digits?'tel:+'+digits:'#contacto';
+    var nav={ser:L?'Servicios':'Services',gal:L?'Galería':'Gallery',con:L?'Contacto':'Contact'};
+    var kicker=t.n+(o.city?' · '+o.city:'');
+    var sub=o.offer||t.sub;
+    var ticker=t.s.map(function(x){return x[0]}).concat(o.chips.map(function(x){return x})).join(' — ');
+    var st={min:'',dark:' d',eleg:' e',vib:' v'}[o.style];
+    var arch=ARCHMAP[o.ind]||'firm', hv=ARCHHERO[arch]||'full';
+    var css=''
+    +':root{--c:'+c+';--cA:'+rgba(c,.14)+';--cB:'+rgba(c,.75)+'}'
+    +'*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}'
+    +'body{font-family:"Space Grotesk",sans-serif;background:#fff;color:#111;line-height:1.6;-webkit-font-smoothing:antialiased}'
+    +'.w{max-width:1060px;margin:0 auto;padding:0 24px}'
+    +'.demo-rib{position:fixed;bottom:18px;right:18px;z-index:99;background:#0a0a0a;color:#fff;font-size:12px;padding:10px 16px;border-radius:99px;box-shadow:0 8px 30px rgba(0,0,0,.3);display:flex;gap:10px;align-items:center}'
+    +'.demo-rib a{color:var(--c);font-weight:700;text-decoration:none}'
+    +'nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid #eee}'
+    +'nav b{font-size:17px;letter-spacing:-.02em}'
+    +'nav .l{display:flex;gap:22px;align-items:center;font-size:13px}'
+    +'nav .l a{text-decoration:none;color:#777;transition:color .15s}nav .l a:hover{color:#111}'
+    +'nav .cta{background:var(--c);color:#fff!important;padding:9px 20px;border-radius:99px;font-weight:600}'
+    +'.hero{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;color:#fff}'
+    +'.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:kb 16s ease-in-out infinite alternate}'
+    +'@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12) translate(-1.2%,-1.2%)}}'
+    +'.hero .ov{position:absolute;inset:0;background:linear-gradient(120deg,'+rgba(c,.8)+' 0%,rgba(8,8,10,.55) 60%,rgba(8,8,10,.75) 100%)}'
+    +'.hero .in{position:relative;z-index:2;padding:120px 0}'
+    +'.kick{font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.85;margin-bottom:22px}'
+    +'h1{font-size:clamp(38px,7vw,72px);line-height:1.02;letter-spacing:-.03em;max-width:13ch;margin-bottom:20px;font-weight:700}'
+    +'.sub{font-size:17px;max-width:44ch;opacity:.92;margin-bottom:36px}'
+    +'.btn{display:inline-block;padding:15px 32px;border-radius:99px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .15s,box-shadow .15s}'
+    +'.btn:hover{transform:translateY(-2px)}'
+    +'.b1{background:#fff;color:#111;box-shadow:0 6px 24px rgba(0,0,0,.25)}'
+    +'.b2{border:1px solid rgba(255,255,255,.5);color:#fff;margin-left:12px}'
+    +'.chips{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}'
+    +'.chip{font-size:12px;font-weight:600;padding:8px 16px;border-radius:99px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px)}'
+    +'.tick{border-top:1px solid #eee;border-bottom:1px solid #eee;overflow:hidden;padding:16px 0;white-space:nowrap}'
+    +'.tick div{display:inline-block;animation:tk 26s linear infinite;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#999}'
+    +'@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}'
+    +'section{padding:96px 0}'
+    +'.k2{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--c);margin-bottom:14px;font-weight:600}'
+    +'h2{font-size:clamp(28px,4.5vw,44px);letter-spacing:-.02em;line-height:1.08;margin-bottom:48px;max-width:20ch}'
+    +'.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}'
+    +'.card{border:1px solid #eaeaea;border-radius:16px;padding:34px 28px;transition:transform .2s,border-color .2s,box-shadow .2s;background:#fff}'
+    +'.card:hover{transform:translateY(-5px);border-color:var(--c);box-shadow:0 16px 40px rgba(0,0,0,.07)}'
+    +'.card .n{font-size:12px;color:var(--c);font-weight:700;letter-spacing:.1em;margin-bottom:18px;display:block}'
+    +'.card h3{font-size:19px;margin-bottom:10px;letter-spacing:-.01em}'
+    +'.card p{font-size:14px;color:#888}'
+    +'.stats{background:#0c0c0e;color:#fff}'
+    +'.stats .g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center}'
+    +'.stats .v{font-size:clamp(36px,6vw,58px);font-weight:700;letter-spacing:-.03em;color:var(--c)}'
+    +'.stats .l2{font-size:13px;color:#999;margin-top:6px}'
+    +'.gal{display:grid;grid-template-columns:1fr 1fr;gap:16px}'
+    +'.gal img{width:100%;height:340px;object-fit:cover;border-radius:16px;transition:transform .3s}'
+    +'.gal img:hover{transform:scale(1.02)}'
+    +'.quote{background:var(--cA)}'
+    +'.quote blockquote{font-size:clamp(20px,3.4vw,30px);letter-spacing:-.01em;line-height:1.35;max-width:26ch;font-weight:500}'
+    +'.quote cite{display:block;margin-top:24px;font-style:normal;font-size:14px;color:#777}'
+    +'.quote .mark{color:var(--c);font-size:60px;line-height:0;display:block;margin-bottom:26px;font-family:Georgia,serif}'
+    +'.contact{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}'
+    +'@media(max-width:720px){.contact{grid-template-columns:1fr}.gal{grid-template-columns:1fr}.gal img{height:240px}nav .l a:not(.cta){display:none}}'
+    +'.info{border:1px solid #eaeaea;border-radius:16px;padding:34px}'
+    +'.info .row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #f0f0f0;font-size:14px}'
+    +'.info .row:last-child{border:none}'
+    +'.info .row b{font-weight:600}.info .row span{color:#888}'
+    +'.bc{background:var(--c);color:#fff}'
+    +'footer{border-top:1px solid #eee;padding:36px 0;font-size:12px;color:#999;text-align:center}'
+    +'.r{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}'
+    +'.r.in{opacity:1;transform:none}'
+    /* dark / futuristic */
+    +'body.d{background:#0a0a0c;color:#e8e8e8}'
+    +'body.d nav{background:rgba(10,10,12,.8);border-color:#1d1d22}body.d nav .l a{color:#888}body.d nav .l a:hover{color:#fff}'
+    +'body.d .tick{border-color:#1d1d22}body.d .card{background:#101014;border-color:#1f1f26}body.d .card p{color:#777}'
+    +'body.d .card:hover{box-shadow:0 0 34px '+rgba(c,.22)+'}'
+    +'body.d .info{border-color:#1f1f26}body.d .info .row{border-color:#1a1a20}'
+    +'body.d .quote{background:'+rgba(c,.1)+'}body.d footer{border-color:#1d1d22}'
+    +'body.d .stats{background:#101014}'
+    +'body.d h1,body.d h2{text-shadow:0 0 40px '+rgba(c,.25)+'}'
+    /* elegant */
+    +'body.e{background:#f7f4ee;color:#1d1a15}'
+    +'body.e h1,body.e h2,body.e nav b,body.e .quote blockquote{font-family:Georgia,"Times New Roman",serif;font-weight:400}'
+    +'body.e h1{font-style:italic}'
+    +'body.e nav{background:rgba(247,244,238,.85);border-color:#e6e0d4}'
+    +'body.e .btn,body.e nav .cta,body.e .chip{border-radius:2px}'
+    +'body.e .card{background:#fffdf9;border-color:#e6e0d4;border-radius:4px}'
+    +'body.e .k2,body.e .card .n{letter-spacing:.26em}'
+    +'body.e .gal img,body.e .info{border-radius:4px;border-color:#e6e0d4}'
+    +'body.e .tick{border-color:#e6e0d4}'
+    /* vibrant */
+    +'body.v h1{font-weight:700;text-transform:uppercase;font-size:clamp(40px,8vw,84px)}'
+    +'body.v h2{font-weight:700;text-transform:uppercase}'
+    +'body.v .card{border-width:2px;border-color:#111;border-radius:20px}'
+    +'body.v .card:hover{border-color:var(--c);box-shadow:8px 8px 0 var(--c)}'
+    +'body.v .btn{font-weight:700}'
+    +'body.v .tick div{color:var(--c);font-weight:700}'
+    /* signature modules */
+    +'.sigm{max-width:760px}'
+    +'.mi{display:flex;gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid #eee}'
+    +'.mi .mim{width:58px;height:58px;border-radius:14px;object-fit:cover;flex-shrink:0}'
+    +'.mi .bd{flex:1}.mi .tr{display:flex;align-items:baseline;gap:12px}'
+    +'.mi h3{font-size:17px;letter-spacing:-.01em}.mi .dots{flex:1;border-bottom:2px dotted #d5d5d5;transform:translateY(-4px)}'
+    +'.mi b{color:var(--c);font-size:16px;white-space:nowrap}.mi p{font-size:13px;color:#888;margin-top:4px}'
+    +'.prods{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}'
+    +'.pc{border:1px solid #eaeaea;border-radius:16px;overflow:hidden;background:#fff;transition:transform .2s,box-shadow .2s}'
+    +'.pc:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.08)}'
+    +'.pc img{width:100%;height:190px;object-fit:cover;display:block}'
+    +'.pc .bd{padding:20px}.pc h3{font-size:16px;margin-bottom:4px}.pc p{font-size:13px;color:#888;margin-bottom:10px}.pc b{color:var(--c);font-size:17px}'
+    +'.stepsx{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}'
+    +'.sx{border-left:2px solid var(--c);padding:6px 0 6px 22px}'
+    +'.sx .n2{font-size:11px;color:var(--c);font-weight:700;letter-spacing:.14em;display:block;margin-bottom:10px}'
+    +'.sx h3{font-size:16px;margin-bottom:6px}.sx p{font-size:13px;color:#888}'
+    +'.schx{width:100%;border-collapse:collapse;font-size:14px;max-width:720px}'
+    +'.schx th{text-align:left;padding:13px 14px;border-bottom:2px solid var(--c);font-size:11px;letter-spacing:.12em;text-transform:uppercase}'
+    +'.schx td{padding:13px 14px;border-bottom:1px solid #eee}'
+    +'.portx{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}'
+    +'.portx img{width:100%;height:270px;object-fit:cover;border-radius:14px;transition:transform .3s}'
+    +'.portx img:hover{transform:scale(1.03)}'
+    +'@media(max-width:720px){.portx{grid-template-columns:1fr}.portx img{height:220px}.mi .tr{flex-wrap:wrap}.mi .dots{display:none}}'
+    +'body.d .mi{border-color:#1f1f26}body.d .mi .dots{border-color:#2a2a30}body.d .mi p,body.d .pc p,body.d .sx p{color:#777}'
+    +'body.d .pc{background:#101014;border-color:#1f1f26}body.d .pc:hover{box-shadow:0 0 34px '+rgba(c,.2)+'}'
+    +'body.d .schx td{border-color:#1a1a20}'
+    +'body.e .pc,body.e .portx img,body.e .mi .mim{border-radius:4px}body.e .pc{border-color:#e6e0d4;background:#fffdf9}'
+    +'body.v .pc{border:2px solid #111;border-radius:20px}body.v .pc:hover{box-shadow:8px 8px 0 var(--c)}'
+    /* ---- hero variants ---- */
+    +'.hv-poster{min-height:92vh}.hv-poster .in{display:flex;flex-direction:column;justify-content:flex-end;min-height:92vh;padding-bottom:84px}'
+    +'.hv-poster h1{font-size:clamp(44px,9vw,96px);max-width:15ch}.hv-poster .kick{margin-bottom:14px}'
+    +'.hv-band{min-height:52vh}.hv-band .in{padding:74px 0}.hv-band h1{font-size:clamp(32px,5.5vw,54px)}'
+    +'.hv-split{min-height:auto;display:block;color:inherit;padding:92px 0 68px;overflow:visible}'
+    +'.hs-grid{display:grid;grid-template-columns:1.08fr 1fr;gap:52px;align-items:center}'
+    +'.hs-img{overflow:hidden;border-radius:24px;box-shadow:0 26px 60px rgba(0,0,0,.16)}'
+    +'.hv-split img{position:relative;inset:auto;width:100%;height:440px;object-fit:cover;display:block}'
+    +'.hv-split .kick{color:var(--c);opacity:1}.hv-split .sub{color:#888;opacity:1}'
+    +'.hv-split h1{text-shadow:none}.hv-split .sub{text-shadow:none}'
+    +'.hv-split .hbt .b1{background:var(--c);color:#fff;box-shadow:0 8px 24px '+rgba(c,.3)+'}'
+    +'.hv-split .hbt .b2{border:1px solid #d5d5d5;color:inherit}'
+    +'.hv-split .chip{background:var(--cA);border:1px solid transparent;color:inherit;backdrop-filter:none}'
+    +'body.d .hv-split .hbt .b2{border-color:#333}body.d .hv-split .sub{color:#888}'
+    +'@media(max-width:760px){.hs-grid{grid-template-columns:1fr}.hv-split img{height:260px}}'
+    /* ---- archetype flavors ---- */
+    +'.a-feast #destacado{background:var(--cA)}.a-feast .tick{background:var(--cA);border-color:transparent}.a-feast .tick div{color:var(--c)}'
+    +'.a-feast .mi h3{font-size:19px}.a-feast .mi .mim{width:72px;height:72px;border-radius:18px}'
+    +'.a-care .card{border-radius:24px;border-color:transparent;box-shadow:0 12px 32px rgba(0,0,0,.07)}'
+    +'.a-care .sx{border-left:none;border-top:3px solid var(--c);padding:18px 0 0}.a-care .info{border-radius:24px}'
+    +'body.d.a-care .card{box-shadow:0 12px 32px rgba(0,0,0,.4)}'
+    +'.a-trade .card,.a-trade .info,.a-trade .btn,.a-trade nav .cta,.a-trade .chip{border-radius:0}'
+    +'.a-trade h2{text-transform:uppercase;letter-spacing:.01em}'
+    +'.a-trade .k2{background:var(--c);color:#fff;display:inline-block;padding:5px 12px}'
+    +'.a-trade .card{border-width:2px}.a-trade .sx .n2{font-size:13px}'
+    +'.a-studio h2{font-weight:400;letter-spacing:.04em}.a-studio .k2{letter-spacing:.34em}'
+    +'.a-studio .card{border:none;padding-left:0;padding-right:0;border-bottom:1px solid #eee;border-radius:0}'
+    +'body.d.a-studio .card{border-color:#1f1f26}'
+    +'.a-studio .portx img{height:340px}'
+    +'.a-market #destacado{background:var(--cA)}.a-market .pc{box-shadow:0 8px 26px rgba(0,0,0,.06)}'
+    +'.a-market .pc b{font-size:19px}'
+    +'.a-energy h2{font-style:italic;text-transform:uppercase}'
+    +'.a-energy .stats .v{color:transparent;-webkit-text-stroke:1.5px var(--c)}'
+    +'.a-energy .k2{font-style:italic}'
+    +'.a-firm .card{border-left:3px solid var(--c);border-radius:8px}'
+    +'.a-firm h2{font-weight:600}.a-firm .quote blockquote{font-weight:400}';
+    var chipsHTML=o.chips.length?'<div class="chips">'+o.chips.map(function(x){return '<span class="chip">'+x+'</span>'}).join('')+'</div>':'';
+    var statsHTML=o.secs.stats?'<section class="stats"><div class="w g">'+t.st.map(function(s){return '<div class="r"><div class="v">'+s[0]+'</div><div class="l2">'+s[1]+'</div></div>'}).join('')+'</div></section>':'';
+    var galHTML=o.secs.gal?'<section id="galeria"><div class="w"><p class="k2 r">'+nav.gal+'</p><h2 class="r">'+(L?'Un vistazo adentro':'A look inside')+'</h2><div class="gal"><img class="r" src="'+g1+'" alt="" loading="lazy" onerror="this.remove()"><img class="r" src="'+g2+'" alt="" loading="lazy" onerror="this.remove()"></div></div></section>':'';
+    var quoteHTML=o.secs.testi?'<section class="quote"><div class="w r"><span class="mark">&ldquo;</span><blockquote>'+t.q[0]+'</blockquote><cite>&mdash; '+t.q[1]+'</cite></div></section>':'';
+    var phoneRow=o.phone?'<div class="row"><b>'+(L?'Teléfono':'Phone')+'</b><span>'+esc(o.phone)+'</span></div>':'';
+    var heroCore='<p class="kick">'+kicker+'</p><h1>'+t.h+'</h1><p class="sub">'+sub+'</p><div class="hbt"><a class="btn b1" href="'+waHref+'">'+t.cta+'</a><a class="btn b2" href="#servicios">'+nav.ser+'</a></div>'+chipsHTML;
+    var heroImg='<img src="'+hero+'" alt="" onerror="this.remove()">';
+    var heroHTML;
+    if(hv==='split'){
+      heroHTML='<header class="hero hv-split" id="inicio"><div class="w hs-grid"><div class="hs-txt">'+heroCore+'</div><div class="hs-img">'+heroImg+'</div></div></header>';
+    } else {
+      heroHTML='<header class="hero hv-'+hv+'" id="inicio">'+heroImg+'<div class="ov"></div><div class="w in">'+heroCore+'</div></header>';
+    }
+    var parts={services:'<section id="servicios"><div class="w"><p class="k2 r">'+nav.ser+'</p><h2 class="r">'+(L?'Lo que hacemos por ti':'What we do for you')+'</h2><div class="cards">'
+      +t.s.map(function(x,i){return '<div class="card r" style="transition-delay:'+(i*90)+'ms"><span class="n">0'+(i+1)+'</span><h3>'+x[0]+'</h3><p>'+x[1]+'</p></div>'}).join('')
+      +'</div></div></section>', sig:sigSection, stats:statsHTML, gal:galHTML, quote:quoteHTML};
+    var bodySections=ARCHORD[arch].map(function(k){return parts[k]||''}).join('');
+    return '<!DOCTYPE html><html lang="'+o.lang+'"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+o.name+(o.city?' · '+o.city:'')+'</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">'
+    +'<style>'+css+'</style></head><body class="'+(st.trim()+' a-'+arch+' hvb-'+hv).trim()+'">'
+    +'<div class="demo-rib">DEMO &middot; <a href="https://thegrongweb.com" target="_blank" rel="noopener">'+(L?'hazla real desde $149':'make it real from $149')+'</a></div>'
+    +'<nav><b style="display:flex;align-items:center">'+brand+o.name+'</b><div class="l"><a href="#servicios">'+nav.ser+'</a>'+(sig?'<a href="#destacado">'+sig.t+'</a>':'')+(o.secs.gal?'<a href="#galeria">'+nav.gal+'</a>':'')+'<a href="#contacto">'+nav.con+'</a><a class="cta" href="'+waHref+'">'+t.cta+'</a></div></nav>'
+    +heroHTML
+    +'<div class="tick"><div>'+ticker+' &mdash; '+ticker+' &mdash; </div></div>'
+    +bodySections
+    +'<section id="contacto"><div class="w contact"><div><p class="k2 r">'+nav.con+'</p><h2 class="r">'+(L?'Hablemos hoy mismo':'Let&rsquo;s talk today')+'</h2><a class="btn bc r" href="'+waHref+'">WhatsApp</a> '+(digits?'<a class="btn b2 r" style="border-color:#ccc;color:inherit" href="'+telHref+'">'+(L?'Llamar':'Call')+'</a>':'')+'</div>'
+    +'<div class="info r">'+phoneRow
+    +(o.city?'<div class="row"><b>'+(L?'Ubicación':'Location')+'</b><span>'+o.city+'</span></div>':'')
+    +'<div class="row"><b>'+(L?'Horario':'Hours')+'</b><span>'+(L?'Lun&ndash;S&aacute;b 9:00&ndash;19:00':'Mon&ndash;Sat 9am&ndash;7pm')+'</span></div>'
+    +'<div class="row"><b>'+(L?'Respuesta':'Response')+'</b><span>'+(L?'En menos de 1 hora':'Under 1 hour')+'</span></div>'
+    +'</div></div></section>'
+    +'<footer>&copy; '+new Date().getFullYear()+' '+o.name+(o.city?' &middot; '+o.city:'')+' &middot; '+(L?'sitio demo por':'demo site by')+' thegrongweb</footer>'
+    +'<script>var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.15});document.querySelectorAll(".r").forEach(function(el){io.observe(el)});<\/script>'
+    +'</body></html>';
+  }
+
+  function keepDemo(){
+    try{localStorage.setItem('tgw-demo-link',document.getElementById('d-link').value)}catch(e){}
+    /* PLACEHOLDER: reemplaza con tu Stripe Payment Link de Demo Express ($49) */
+    window.open('https://buy.stripe.com/PLACEHOLDER_EXPRESS','_blank');
+  }
+  function openFull(){
+    if(!lastDemoHTML) return;
+    var b=new Blob([lastDemoHTML],{type:'text/html'});
+    window.open(URL.createObjectURL(b),'_blank');
+  }
+
+  function buildDemo(e){
+    e.preventDefault();
+    var run=++demoRun;
+    var lang=document.body.classList.contains('lang-es')?'es':'en';
+    var name=esc(document.getElementById('d-name').value.trim()||'Mi Negocio');
+    var ind=document.getElementById('d-ind').value;
+    var offer=esc(document.getElementById('d-offer').value.trim());
+    var city=esc(document.getElementById('d-city').value.trim());
+    var phone=document.getElementById('d-phone').value.trim();
+    var desc=document.getElementById('d-desc').value.trim();
+    var secs={gal:document.getElementById('d-gal').checked,stats:document.getElementById('d-stats').checked,testi:document.getElementById('d-testi').checked};
+    var t=IND[ind][lang];
+    var indName=t.n;
+    var styleName={min:'minimal',dark:lang==='es'?'futurista':'futuristic',eleg:lang==='es'?'elegante':'elegant',vib:lang==='es'?'vibrante':'bold'}[demoStyle];
+    var chips=[];
+    KW.forEach(function(k){if(desc&&k[0].test(desc)&&chips.length<5)chips.push(lang==='es'?k[1]:k[2])});
+    /* shuffle photos so each generation feels different */
+    var photos=IND[ind].ph.slice().sort(function(){return Math.random()-.5});
+    var slug=name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'tudemo';
+    document.getElementById('d-url').textContent=slug+'.thegrongweb.com';
+    var out=document.getElementById('d-out');
+    var L=lang==='es'?[
+      '<span class="pr">$</span> grong build <b>"'+name+'"</b>',
+      '&rarr; industria: <b>'+indName+'</b> <span class="ok">OK</span>',
+      '&rarr; estilo <b>'+styleName+'</b> &middot; paleta <b>'+demoColor+'</b> <span class="ok">OK</span>',
+      '&rarr; imágenes de stock&hellip; <span class="ok">OK</span>',
+      chips.length?'&rarr; extras detectados: <b>'+chips.length+'</b> <span class="ok">OK</span>':'&rarr; secciones: <b>'+(3+secs.gal+secs.stats+secs.testi)+'</b> <span class="ok">OK</span>',
+      '&rarr; ensamblando tu sitio&hellip;'
+    ]:[
+      '<span class="pr">$</span> grong build <b>"'+name+'"</b>',
+      '&rarr; industry: <b>'+indName+'</b> <span class="ok">OK</span>',
+      '&rarr; style <b>'+styleName+'</b> &middot; palette <b>'+demoColor+'</b> <span class="ok">OK</span>',
+      '&rarr; fetching stock imagery&hellip; <span class="ok">OK</span>',
+      chips.length?'&rarr; extras detected: <b>'+chips.length+'</b> <span class="ok">OK</span>':'&rarr; sections: <b>'+(3+secs.gal+secs.stats+secs.testi)+'</b> <span class="ok">OK</span>',
+      '&rarr; assembling your site&hellip;'
+    ];
+    L.splice(3,0,(lang==='es'?'&rarr; layout: <b>':'&rarr; layout: <b>')+ARCHLBL[ARCHMAP[ind]||'firm'][lang]+'</b> <span class="ok">OK</span>');
+    if(SIG[ind]){
+      L.splice(4,0,(lang==='es'?'&rarr; m\u00f3dulo de industria: <b>':'&rarr; industry module: <b>')+SIG[ind][lang].t+'</b> <span class="ok">OK</span>');
+    }
+    if(userLogo||userImgs.length){
+      var mat=lang==='es'
+        ? '&rarr; materiales propios: <b>'+(userLogo?'logo':'')+(userLogo&&userImgs.length?' + ':'')+(userImgs.length?userImgs.length+(lang==='es'?' fotos':' photos'):'')+'</b> <span class="ok">OK</span>'
+        : '&rarr; your materials: <b>'+(userLogo?'logo':'')+(userLogo&&userImgs.length?' + ':'')+(userImgs.length?userImgs.length+' photos':'')+'</b> <span class="ok">OK</span>';
+      L.splice(4,0,mat);
+    }
+    out.innerHTML='<div class="d-building" id="d-log"></div>';
+    var log=document.getElementById('d-log');
+    L.forEach(function(line,i){
+      setTimeout(function(){
+        if(run!==demoRun)return;
+        log.innerHTML+='<span class="ln">'+line+'</span>';
+        if(i===L.length-1)log.innerHTML+='<span class="cur"></span>';
+      },300+i*420);
+    });
+    setTimeout(function(){
+      if(run!==demoRun)return;
+      lastDemoHTML=genSiteHTML({lang:lang,name:name,ind:ind,offer:offer,city:city,phone:phone,style:demoStyle,color:demoColor,chips:chips,secs:secs,photos:photos,logo:userLogo,imgs:userImgs});
+      var f=document.createElement('iframe');
+      f.setAttribute('sandbox','allow-scripts allow-popups');
+      f.srcdoc=lastDemoHTML;
+      out.innerHTML=''; out.appendChild(f);
+      document.getElementById('d-open').hidden=false;
+      document.getElementById('d-cta').hidden=false;
+      afterBuild({l:lang,n:document.getElementById('d-name').value.trim(),i:ind,o:document.getElementById('d-offer').value.trim(),c:document.getElementById('d-city').value.trim(),p:phone,s:demoStyle,k:demoColor,d:desc,g:secs.gal,e:secs.stats,t:secs.testi});
+    },300+L.length*420+600);
+  }
+
+  /* ============ SHAREABLE LINKS + LEAD CAPTURE ============ */
+  var lastCfg = null;
+  function encCfg(c){ return btoa(unescape(encodeURIComponent(JSON.stringify(c)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+  function decCfg(h){
+    try{
+      h = h.replace(/-/g,'+').replace(/_/g,'/');
+      return JSON.parse(decodeURIComponent(escape(atob(h))));
+    }catch(e){ return null; }
+  }
+  function afterBuild(cfg){
+    lastCfg = cfg;
+    var enc = encCfg(cfg);
+    try{ history.replaceState(null,'','#d='+enc); }catch(e){}
+    var base = location.origin==='null'||location.protocol==='file:' ? location.pathname : location.origin+location.pathname;
+    document.getElementById('d-link').value = base+'#d='+enc;
+    /* plan suggestion */
+    var lang = cfg.l, score = (cfg.g?1:0)+(cfg.e?1:0)+(cfg.t?1:0) + Math.min((cfg.d?2:0),2);
+    var wantsBooking = /reserva|cita|booking|appointment|agendar/i.test(cfg.d||'');
+    var plan = score>=3||wantsBooking ? (wantsBooking?'Premium ($1,249)':'Pro ($499)') : 'Esencial ($149)';
+    document.getElementById('d-plan').textContent = lang==='es'
+      ? '» Con lo que pediste, tu plan ideal es '+plan+'.'
+      : '» Based on what you picked, your ideal plan is '+plan+'.';
+    /* reset lead form */
+    document.getElementById('d-lead-ok').hidden = true;
+    document.getElementById('d-noimg').hidden = !(userLogo||userImgs.length);
+  }
+  function copyLink(btn){
+    var inp = document.getElementById('d-link');
+    inp.select(); inp.setSelectionRange(0,9999);
+    var done = function(){
+      var old = btn.innerHTML;
+      btn.innerHTML = document.body.classList.contains('lang-es') ? '¡Copiado!' : 'Copied!';
+      setTimeout(function(){ btn.innerHTML = old; }, 1600);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(inp.value).then(done, function(){ document.execCommand('copy'); done(); });
+    } else { document.execCommand('copy'); done(); }
+  }
+  function sendLead(e){
+    e.preventDefault();
+    var f = e.target;
+    var fd = new FormData();
+    fd.append('email', document.getElementById('d-email').value);
+    fd.append('negocio', lastCfg ? lastCfg.n : '');
+    fd.append('industria', lastCfg ? lastCfg.i : '');
+    fd.append('ciudad', lastCfg ? lastCfg.c : '');
+    fd.append('telefono', lastCfg ? lastCfg.p : '');
+    fd.append('demo_link', document.getElementById('d-link').value);
+    fd.append('_subject', 'Lead del generador de demos — TheGrongWeb');
+    fetch(f.dataset.endpoint, {method:'POST', body:fd, headers:{'Accept':'application/json'}})
+      .then(function(r){ document.getElementById('d-lead-ok').hidden = false; })
+      .catch(function(){ document.getElementById('d-lead-ok').hidden = false; });
+  }
+  /* auto-load demo from shared link */
+  (function(){
+    var m = location.hash.match(/#d=([A-Za-z0-9\-_]+)/);
+    if(!m) return;
+    var c = decCfg(m[1]);
+    if(!c || !c.n || !IND[c.i]) return;
+    document.getElementById('d-name').value = c.n||'';
+    document.getElementById('d-ind').value = c.i;
+    document.getElementById('d-offer').value = c.o||'';
+    document.getElementById('d-city').value = c.c||'';
+    document.getElementById('d-phone').value = c.p||'';
+    document.getElementById('d-desc').value = c.d||'';
+    document.getElementById('d-gal').checked = !!c.g;
+    document.getElementById('d-stats').checked = !!c.e;
+    document.getElementById('d-testi').checked = !!c.t;
+    if(c.l) setLang(c.l);
+    /* style chips */
+    demoStyle = c.s||'min';
+    document.querySelectorAll('#d-style .stc').forEach(function(x){ x.classList.toggle('on', x.dataset.s===demoStyle); });
+    /* color */
+    demoColor = c.k||'#e8542f';
+    var hit = false;
+    document.querySelectorAll('#d-colors .sw').forEach(function(x){
+      var on = x.dataset.c===demoColor; x.classList.toggle('on', on); if(on) hit = true;
+    });
+    if(!hit){
+      var cust = document.getElementById('d-custom');
+      cust.value = demoColor; cust.parentElement.classList.add('on');
+    }
+    setTimeout(function(){
+      document.getElementById('demo').scrollIntoView();
+      buildDemo({preventDefault:function(){}});
+    }, 300);
+  })();
+
+  /* ============ USER UPLOADS: logo + photos (client-side only, $0) ============ */
+  var userLogo = null, userImgs = [];
+  function scaleImage(file, maxDim, cb){
+    if(file.type==='image/svg+xml'){
+      var r0 = new FileReader();
+      r0.onload = function(){ cb(r0.result) };
+      r0.readAsDataURL(file);
+      return;
+    }
+    var r = new FileReader();
+    r.onload = function(){
+      var im = new Image();
+      im.onload = function(){
+        var sc = Math.min(1, maxDim/Math.max(im.width, im.height));
+        var cv = document.createElement('canvas');
+        cv.width = Math.round(im.width*sc); cv.height = Math.round(im.height*sc);
+        cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+        var isPng = file.type==='image/png';
+        cb(cv.toDataURL(isPng?'image/png':'image/jpeg', .82));
+      };
+      im.onerror = function(){ cb(null) };
+      im.src = r.result;
+    };
+    r.readAsDataURL(file);
+  }
+  function renderThumbs(){
+    var lt = document.getElementById('d-logo-th');
+    lt.innerHTML = userLogo ? '<div class="thumb"><img src="'+userLogo+'" alt=""><button type="button" onclick="rmLogo()" aria-label="remove">&times;</button></div>' : '';
+    var it = document.getElementById('d-imgs-th');
+    it.innerHTML = userImgs.map(function(u,i){
+      return '<div class="thumb"><img src="'+u+'" alt=""><button type="button" onclick="rmImg('+i+')" aria-label="remove">&times;</button></div>';
+    }).join('');
+  }
+  function rmLogo(){ userLogo=null; document.getElementById('d-logo').value=''; renderThumbs(); }
+  function rmImg(i){ userImgs.splice(i,1); renderThumbs(); }
+  document.getElementById('d-logo').addEventListener('change', function(){
+    var f = this.files[0]; if(!f) return;
+    scaleImage(f, 400, function(u){ if(u){ userLogo=u; renderThumbs(); } });
+  });
+  document.getElementById('d-imgs').addEventListener('change', function(){
+    var fs = Array.prototype.slice.call(this.files, 0, 4);
+    fs.forEach(function(f){
+      if(userImgs.length>=4) return;
+      scaleImage(f, 1200, function(u){ if(u && userImgs.length<4){ userImgs.push(u); renderThumbs(); } });
+    });
+    this.value='';
+  });
+</script>
+</body>
+</html>
