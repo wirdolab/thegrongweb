@@ -1,0 +1,51 @@
+{
+  "email": [
+    {
+      "id": "email-intento1",
+      "intento": 1,
+      "name": "Correo — Intento 1 (primer contacto)",
+      "industry": "all",
+      "subject": "Una idea de página web para {{nombre}}",
+      "body": "Hola,\n\nVi que {{nombre}} no tiene página web todavía, así que armé una demo gratis para que la vean sin compromiso:\n\n{{demo_link}}\n\nEs solo una muestra — colores, textos y fotos se pueden ajustar. Si les gusta, en unos días la tienen lista.\n\nCualquier duda, respondan este correo o agendemos 15 min aquí: {{calendly_link}}\n\nSaludos,\n{{mi_nombre}}"
+    },
+    {
+      "id": "email-intento2",
+      "intento": 2,
+      "name": "Correo — Intento 2 (recordatorio, ~3 días después)",
+      "industry": "all",
+      "subject": "¿Alcanzaron a ver la demo de {{nombre}}?",
+      "body": "Hola de nuevo,\n\nLes había compartido una demo de página para {{nombre}}:\n\n{{demo_link}}\n\nNo sé si la vieron — no cuesta nada verla y no hay ningún compromiso. Si tienen 2 minutos les leo cualquier duda por aquí mismo.\n\nSaludos,\n{{mi_nombre}}"
+    },
+    {
+      "id": "email-intento3",
+      "intento": 3,
+      "name": "Correo — Intento 3 (cierre, ~7 días después)",
+      "industry": "all",
+      "subject": "Último mensaje — demo de {{nombre}}",
+      "body": "Hola,\n\nEste es mi último mensaje para no ser inoportuno. La demo sigue disponible aquí por si la quieren ver más adelante:\n\n{{demo_link}}\n\nSi en algún momento les interesa, aquí estoy: {{calendly_link}}\n\nÉxito con {{nombre}}.\n{{mi_nombre}}"
+    }
+  ],
+  "whatsapp": [
+    {
+      "id": "wa-intento1",
+      "intento": 1,
+      "name": "WhatsApp — Intento 1 (primer contacto)",
+      "industry": "all",
+      "body": "Hola! Vi que {{nombre}} no tiene página web, así que les armé una demo gratis (sin compromiso): {{demo_link}}  Si les gusta cómo se ve, en unos días la tienen lista 🙂"
+    },
+    {
+      "id": "wa-intento2",
+      "intento": 2,
+      "name": "WhatsApp — Intento 2 (recordatorio, ~3 días después)",
+      "industry": "all",
+      "body": "Hola de nuevo! Solo para saber si alcanzaron a ver la demo que les mandé para {{nombre}}: {{demo_link}}  Cualquier duda me dicen 🙂"
+    },
+    {
+      "id": "wa-intento3",
+      "intento": 3,
+      "name": "WhatsApp — Intento 3 (cierre, ~7 días después)",
+      "industry": "all",
+      "body": "Hola! Este es mi último mensaje para no molestar. La demo de {{nombre}} sigue aquí por si la quieren ver después: {{demo_link}}  Éxito con el negocio 🙌"
+    }
+  ]
+}
