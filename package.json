@@ -1,0 +1,14 @@
+{
+  "name": "thegrongweb-outreach",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Scripts de prospección y automatización para TheGrongWeb (fuera del sitio estático).",
+  "scripts": {
+    "outreach": "node scripts/generate-outreach.js",
+    "daily": "node scripts/check-unsubscribes.js && node scripts/send-daily-outreach.js"
+  },
+  "dependencies": {
+    "imapflow": "^1.0.171",
+    "nodemailer": "^6.9.14"
+  }
+}
