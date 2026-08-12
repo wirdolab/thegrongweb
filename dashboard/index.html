@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TheGrongWeb — Dashboard de Prospección</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+  :root{
+    --ink:#111318; --bg:#ffffff; --panel:#f7f7fa; --border:#e6e6ec;
+    --accent:#3b2bff; --accent-ink:#ffffff; --muted:#6b6f7a;
+    --s-no:#9ca3af; --s-cont:#3b82f6; --s-abrio:#f59e0b; --s-resp:#8b5cf6; --s-agenda:#16a34a;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1.5}
+  h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif}
+  a{color:var(--accent)}
+  header.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:20;flex-wrap:wrap;gap:10px}
+  .brand{font-weight:700;font-size:18px;letter-spacing:-.02em}
+  .brand span{color:var(--accent)}
+  nav.tabs{display:flex;gap:4px;flex-wrap:wrap}
+  nav.tabs button{border:1px solid var(--border);background:#fff;color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+  nav.tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  main{padding:18px 20px 60px;max-width:1400px;margin:0 auto}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
+  .kpi{border:1px solid var(--border);border-radius:10px;padding:12px 14px;background:var(--panel)}
+  .kpi b{display:block;font-family:'Space Grotesk',sans-serif;font-size:22px}
+  .kpi small{color:var(--muted)}
+  .panel{display:none}
+  .panel.active{display:block}
+  .row{display:flex;gap:16px;flex-wrap:wrap}
+  #map{height:520px;border-radius:12px;border:1px solid var(--border);flex:2;min-width:320px}
+  .legend{flex:1;min-width:220px;border:1px solid var(--border);border-radius:12px;padding:14px}
+  .legend h3{margin:0 0 10px;font-size:14px}
+  .legend .item{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+  select,input[type=text],input[type=search],input[type=password],input[type=date],textarea{
+    font-family:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--ink)
+  }
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+  th{color:var(--muted);font-weight:500;font-family:'Space Grotesk',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+  tr:hover{background:var(--panel)}
+  .badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:11px;color:#fff;font-family:'Space Grotesk',sans-serif}
+  .b-no_contactado{background:var(--s-no)}
+  .b-contactado{background:var(--s-cont)}
+  .b-abrio{background:var(--s-abrio)}
+  .b-respondio{background:var(--s-resp)}
+  .b-agendo{background:var(--s-agenda)}
+  .link-actions a,.link-actions button{margin-right:6px;font-size:12px;text-decoration:none;border:1px solid var(--border);padding:4px 8px;border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;font-family:inherit}
+  .link-actions a:hover,.link-actions button:hover{border-color:var(--accent);color:var(--accent)}
+  .card{border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;background:#fff}
+  .card h3{margin:0 0 8px}
+  .muted{color:var(--muted)}
+  .btn{background:var(--ink);color:#fff;border:none;padding:9px 16px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+  .btn.accent{background:var(--accent)}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--border)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .modal-bg{position:fixed;inset:0;background:rgba(10,10,15,.5);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .modal-bg.open{display:flex}
+  .modal{background:#fff;border-radius:14px;padding:22px;max-width:560px;width:100%;max-height:88vh;overflow:auto}
+  .modal h3{margin-top:0}
+  label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px;font-family:'Space Grotesk',sans-serif}
+  textarea{width:100%;min-height:90px;resize:vertical}
+  input[type=text],select,input[type=password],input[type=date]{width:100%}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .close-x{float:right;cursor:pointer;border:none;background:none;font-size:18px;color:var(--muted)}
+  .tpl-tabs{display:flex;gap:6px;margin-bottom:12px}
+  .tpl-tabs button{border:1px solid var(--border);background:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px}
+  .tpl-tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .warn{background:#fff7ed;border:1px solid #fdba74;color:#9a3412;padding:10px 12px;border-radius:8px;font-size:12.5px;margin-bottom:14px}
+  .ok{background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:10px 12px;border-radius:8px;font-size:12.5px;margin-bottom:14px}
+  .funnel-item{border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+  .funnel-item .msg{background:var(--panel);border-radius:8px;padding:10px;margin:8px 0;white-space:pre-wrap;font-size:12.5px}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 0}
+  .empty{color:var(--muted);text-align:center;padding:30px 0}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">TheGrong<span>Web</span> · Dashboard</div>
+  <nav class="tabs">
+    <button data-tab="mapa" class="active">Mapa</button>
+    <button data-tab="leads">Leads</button>
+    <button data-tab="funnel">Seguimiento</button>
+    <button data-tab="plantillas">Plantillas</button>
+    <button data-tab="ajustes">Ajustes</button>
+  </nav>
+</header>
+
+<main>
+  <div id="kpis" class="kpis"></div>
+
+  <section id="panel-mapa" class="panel active">
+    <div class="row">
+      <div id="map"></div>
+      <div class="legend">
+        <h3>Estatus</h3>
+        <div class="item"><span class="dot" style="background:#9ca3af"></span> No contactado</div>
+        <div class="item"><span class="dot" style="background:#3b82f6"></span> Contactado</div>
+        <div class="item"><span class="dot" style="background:#f59e0b"></span> Abrió</div>
+        <div class="item"><span class="dot" style="background:#8b5cf6"></span> Respondió</div>
+        <div class="item"><span class="dot" style="background:#16a34a"></span> Agendó</div>
+        <h3 style="margin-top:16px">Por industria</h3>
+        <div id="byIndustry"></div>
+        <h3 style="margin-top:16px">Por ciudad</h3>
+        <div id="byCity"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-leads" class="panel">
+    <div class="filters">
+      <input type="search" id="q" placeholder="Buscar nombre, ciudad, teléfono...">
+      <select id="fStatus"><option value="">Todos los estatus</option></select>
+      <select id="fIndustry"><option value="">Todas las industrias</option></select>
+      <select id="fCity"><option value="">Todas las ciudades</option></select>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>Negocio</th><th>Industria</th><th>Ciudad</th><th>Estatus</th><th>Intentos</th><th>Acciones</th>
+        </tr></thead>
+        <tbody id="leadsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="panel-funnel" class="panel">
+    <div class="card">
+      <h3>Reglas del funnel</h3>
+      <p class="muted">Máximo 3 intentos por lead. Intento 2 se sugiere ~3 días después del intento 1. Intento 3 se sugiere ~7 días después del intento 2. Un lead sale del funnel al llegar a "Respondió" o "Agendó", o al agotar los 3 intentos.</p>
+    </div>
+    <h3>Toca seguimiento hoy</h3>
+    <div id="funnelToday"></div>
+    <h3 style="margin-top:22px">Próximos (aún no vencen)</h3>
+    <div id="funnelUpcoming"></div>
+  </section>
+
+  <section id="panel-plantillas" class="panel">
+    <div class="tpl-tabs">
+      <button data-ttab="email" class="active">Correo</button>
+      <button data-ttab="whatsapp">WhatsApp</button>
+    </div>
+    <p class="muted">Variables disponibles: <code>{{nombre}}</code> <code>{{ciudad}}</code> <code>{{categoria}}</code> <code>{{demo_link}}</code> <code>{{calendly_link}}</code> <code>{{mi_nombre}}</code></p>
+    <div id="tplList"></div>
+    <button class="btn accent" id="saveTemplates" style="margin-top:10px">Guardar plantillas</button>
+    <span id="tplSaveStatus" class="muted" style="margin-left:10px"></span>
+  </section>
+
+  <section id="panel-ajustes" class="panel">
+    <div class="card">
+      <h3>Datos personales para las plantillas</h3>
+      <label>Tu nombre (mi_nombre)</label>
+      <input type="text" id="cfgMiNombre" placeholder="Ferdossi">
+      <label>Tu link de Calendly (calendly_link)</label>
+      <input type="text" id="cfgCalendly" placeholder="https://calendly.com/tu-usuario/llamada-15-min">
+      <button class="btn ghost" id="saveCfgPersonal" style="margin-top:12px">Guardar</button>
+    </div>
+
+    <div class="card">
+      <h3>Guardado en GitHub</h3>
+      <div class="warn">
+        Tu token nunca se escribe en el código ni se sube al repo — vive solo en el almacenamiento local de <b>este navegador</b> y se usa para llamar directo a <code>api.github.com</code> desde tu propia sesión. No lo compartas ni lo pegues en pantallas compartidas. Genera un token en GitHub → Settings → Developer settings → Fine-grained tokens, con permiso de <b>Contents: Read and write</b> limitado al repo <code>thegrongweb</code>.
+      </div>
+      <label>Owner</label>
+      <input type="text" id="cfgOwner" value="wirdolab">
+      <label>Repo</label>
+      <input type="text" id="cfgRepo" value="thegrongweb">
+      <label>Branch</label>
+      <input type="text" id="cfgBranch" value="main">
+      <label>GitHub token (fine-grained, solo este repo)</label>
+      <input type="password" id="cfgToken" placeholder="github_pat_...">
+      <div style="margin-top:12px">
+        <button class="btn accent" id="saveToken">Guardar token</button>
+        <button class="btn ghost" id="clearToken">Olvidar token</button>
+        <button class="btn ghost" id="testToken">Probar conexión</button>
+      </div>
+      <p id="tokenStatus" class="muted" style="margin-top:8px"></p>
+    </div>
+
+    <div class="card">
+      <h3>Respaldo manual</h3>
+      <p class="muted">Si no quieres usar un token, puedes descargar los archivos actualizados y subirlos tú mismo al repo (commit manual).</p>
+      <button class="btn ghost" id="downloadLeads">Descargar leads.json</button>
+      <button class="btn ghost" id="downloadTemplates">Descargar templates.json</button>
+    </div>
+
+    <div class="card">
+      <h3>Recargar datos</h3>
+      <button class="btn ghost" id="reloadData">Recargar leads.json / templates.json del repo</button>
+    </div>
+  </section>
+</main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<footer>TheGrongWeb · dashboard interno, no indexado · datos en leads.json</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const IND_LABELS = {rest:'Restaurante',cafe:'Cafetería',salud:'Salud',belleza:'Belleza',barber:'Barbería',
+  taller:'Taller',hogar:'Hogar',prof:'Profesional',fit:'Fitness',tienda:'Tienda',vet:'Veterinaria',
+  inmo:'Inmobiliaria',foto:'Fotografía',edu:'Educación'};
+const STATUS_LABELS = {no_contactado:'No contactado',contactado:'Contactado',abrio:'Abrió',respondio:'Respondió',agendo:'Agendó'};
+const STATUS_COLORS = {no_contactado:'#9ca3af',contactado:'#3b82f6',abrio:'#f59e0b',respondio:'#8b5cf6',agendo:'#16a34a'};
+const DUE_DAYS = {2:3, 3:7}; // intento -> dias desde el intento anterior
+
+let state = {
+  leads: [],
+  templates: {email:[], whatsapp:[]},
+  leadsSha: null,
+  templatesSha: null,
+  map: null,
+  markers: {}
+};
+
+const $ = (sel,root=document)=>root.querySelector(sel);
+const $all = (sel,root=document)=>[...root.querySelectorAll(sel)];
+
+function ls(key, fallback=''){ return localStorage.getItem('tgw_'+key) ?? fallback; }
+function setLs(key, val){ localStorage.setItem('tgw_'+key, val); }
+
+// ---------- Load data ----------
+async function loadData(){
+  try{
+    const [leadsRes, tplRes] = await Promise.all([
+      fetch('../leads.json', {cache:'no-store'}),
+      fetch('./templates.json', {cache:'no-store'})
+    ]);
+    state.leads = leadsRes.ok ? await leadsRes.json() : [];
+    state.templates = tplRes.ok ? await tplRes.json() : {email:[],whatsapp:[]};
+  }catch(e){
+    console.error('Error cargando datos', e);
+  }
+  render();
+}
+
+// ---------- Helpers de template ----------
+function fillTemplate(str, lead){
+  const vars = {
+    nombre: lead.name || '',
+    ciudad: lead.city || '',
+    categoria: IND_LABELS[lead.category] || lead.category || '',
+    demo_link: lead.demo_link || '',
+    calendly_link: ls('calendly','https://calendly.com/'),
+    mi_nombre: ls('minombre','')
+  };
+  return str.replace(/{{\s*(\w+)\s*}}/g, (m,k)=> vars[k] !== undefined ? vars[k] : m);
+}
+
+function tplFor(channel, intento){
+  const list = state.templates[channel] || [];
+  return list.find(t=>t.intento===intento) || list[0];
+}
+
+function daysSince(dateStr){
+  const d = new Date(dateStr+'T00:00:00');
+  const now = new Date();
+  const today = new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  return Math.floor((today - d) / 86400000);
+}
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+// ---------- Render: KPIs ----------
+function render(){
+  renderKpis();
+  renderMap();
+  renderFilters();
+  renderTable();
+  renderFunnel();
+  renderTemplates();
+  renderSideCounters();
+}
+
+function renderKpis(){
+  const total = state.leads.length;
+  const counts = {};
+  Object.keys(STATUS_LABELS).forEach(s=>counts[s]=0);
+  state.leads.forEach(l=>{ if(counts[l.status]!==undefined) counts[l.status]++; });
+  const kpis = [{label:'Leads totales', val:total}];
+  Object.entries(STATUS_LABELS).forEach(([k,label])=>kpis.push({label, val:counts[k]}));
+  $('#kpis').innerHTML = kpis.map(k=>`<div class="kpi"><b>${k.val}</b><small>${k.label}</small></div>`).join('');
+}
+
+function renderSideCounters(){
+  const byInd = {}, byCity = {};
+  state.leads.forEach(l=>{
+    byInd[l.category] = (byInd[l.category]||0)+1;
+    byCity[l.city] = (byCity[l.city]||0)+1;
+  });
+  $('#byIndustry').innerHTML = Object.entries(byInd).sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>`<div class="item">${IND_LABELS[k]||k}: <b style="margin-left:auto">${v}</b></div>`).join('') || '<span class="muted">Sin datos</span>';
+  $('#byCity').innerHTML = Object.entries(byCity).sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>`<div class="item">${k}: <b style="margin-left:auto">${v}</b></div>`).join('') || '<span class="muted">Sin datos</span>';
+}
+
+// ---------- Render: Mapa ----------
+function renderMap(){
+  if(!state.map){
+    state.map = L.map('map').setView([25.5,-99], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; OpenStreetMap'
+    }).addTo(state.map);
+  }
+  Object.values(state.markers).forEach(m=>state.map.removeLayer(m));
+  state.markers = {};
+  const pts = [];
+  state.leads.forEach(l=>{
+    if(l.lat==null || l.lng==null) return;
+    const color = STATUS_COLORS[l.status] || '#9ca3af';
+    const marker = L.circleMarker([l.lat,l.lng], {
+      radius:8, color:'#fff', weight:2, fillColor:color, fillOpacity:0.9
+    }).addTo(state.map);
+    marker.bindPopup(`
+      <b>${l.name}</b><br>${IND_LABELS[l.category]||l.category} · ${l.city}<br>
+      <span style="color:${color}">${STATUS_LABELS[l.status]}</span><br>
+      <a href="${l.demo_link}" target="_blank">Ver demo</a> ·
+      <a href="${l.whatsapp_link}" target="_blank">WhatsApp</a> ·
+      <a href="${l.mailto_link}" target="_blank">Correo</a><br>
+      <button onclick="openLead('${l.id}')" style="margin-top:6px;cursor:pointer">Abrir ficha</button>
+    `);
+    state.markers[l.id] = marker;
+    pts.push([l.lat,l.lng]);
+  });
+  if(pts.length) state.map.fitBounds(pts, {padding:[30,30], maxZoom:12});
+}
+
+// ---------- Render: filtros + tabla ----------
+function renderFilters(){
+  const statuses = [...new Set(state.leads.map(l=>l.status))];
+  const industries = [...new Set(state.leads.map(l=>l.category))];
+  const cities = [...new Set(state.leads.map(l=>l.city))];
+  fillSelect('#fStatus', statuses, STATUS_LABELS);
+  fillSelect('#fIndustry', industries, IND_LABELS);
+  fillSelect('#fCity', cities);
+}
+function fillSelect(sel, values, labels){
+  const el = $(sel);
+  const current = el.value;
+  el.innerHTML = `<option value="">${el.firstChild ? el.firstChild.textContent : 'Todos'}</option>` +
+    values.sort().map(v=>`<option value="${v}">${labels?labels[v]||v:v}</option>`).join('');
+  el.value = current;
+}
+
+function filteredLeads(){
+  const q = $('#q').value.toLowerCase();
+  const fs = $('#fStatus').value, fi = $('#fIndustry').value, fc = $('#fCity').value;
+  return state.leads.filter(l=>{
+    if(fs && l.status!==fs) return false;
+    if(fi && l.category!==fi) return false;
+    if(fc && l.city!==fc) return false;
+    if(q && !(`${l.name} ${l.city} ${l.phone} ${l.email}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+
+function renderTable(){
+  const rows = filteredLeads();
+  $('#leadsBody').innerHTML = rows.map(l=>`
+    <tr>
+      <td><a href="#" onclick="openLead('${l.id}');return false;"><b>${l.name}</b></a><br><span class="muted">${l.phone||''}</span></td>
+      <td>${IND_LABELS[l.category]||l.category}</td>
+      <td>${l.city}</td>
+      <td><span class="badge b-${l.status}">${STATUS_LABELS[l.status]}</span></td>
+      <td>${(l.attempts||[]).length}/3</td>
+      <td class="link-actions">
+        <a href="${l.demo_link}" target="_blank">Demo</a>
+        <a href="${l.whatsapp_link}" target="_blank">WhatsApp</a>
+        <a href="${l.mailto_link}">Correo</a>
+        <button onclick="openLead('${l.id}')">Ficha</button>
+      </td>
+    </tr>
+  `).join('') || `<tr><td colspan="6" class="empty">Sin leads que coincidan con el filtro.</td></tr>`;
+}
+['q','fStatus','fIndustry','fCity'].forEach(id=>{
+  document.addEventListener('input', e=>{ if(e.target.id===id) renderTable(); });
+  document.addEventListener('change', e=>{ if(e.target.id===id) renderTable(); });
+});
+
+// ---------- Ficha de lead (modal) ----------
+window.openLead = function(id){
+  const l = state.leads.find(x=>x.id===id);
+  if(!l) return;
+  const attemptsHtml = (l.attempts||[]).map(a=>`<div class="muted">Intento ${a.n} · ${a.channel} · ${a.date}</div>`).join('') || '<span class="muted">Sin intentos registrados</span>';
+  $('#modalBody').innerHTML = `
+    <button class="close-x" onclick="closeModal()">✕</button>
+    <h3>${l.name}</h3>
+    <p class="muted">${IND_LABELS[l.category]||l.category} · ${l.city}${l.state?', '+l.state:''} · ⭐ ${l.rating||'-'} (${l.reviews||0} reseñas)</p>
+    <div class="link-actions" style="margin:10px 0">
+      <a href="${l.demo_link}" target="_blank">Ver demo</a>
+      <a href="${l.whatsapp_link}" target="_blank">WhatsApp</a>
+      <a href="${l.mailto_link}">Correo</a>
+    </div>
+    <label>Estatus</label>
+    <select id="mStatus">
+      ${Object.entries(STATUS_LABELS).map(([k,v])=>`<option value="${k}" ${k===l.status?'selected':''}>${v}</option>`).join('')}
+    </select>
+    <label>Notas</label>
+    <textarea id="mNotes">${l.notes||''}</textarea>
+    <label>Intentos (${(l.attempts||[]).length}/3)</label>
+    <div>${attemptsHtml}</div>
+    <div class="grid2" style="margin-top:10px">
+      <div>
+        <label>Registrar intento — canal</label>
+        <select id="mChannel"><option value="whatsapp">WhatsApp</option><option value="email">Correo</option></select>
+      </div>
+      <div>
+        <label>Fecha</label>
+        <input type="date" id="mDate" value="${todayStr()}">
+      </div>
+    </div>
+    <button class="btn ghost" style="margin-top:10px" onclick="logAttempt('${l.id}')">+ Registrar intento con mensaje sugerido</button>
+    <div style="margin-top:16px;display:flex;gap:8px">
+      <button class="btn accent" onclick="saveLeadEdits('${l.id}')">Guardar cambios</button>
+      <button class="btn ghost" onclick="closeModal()">Cerrar</button>
+    </div>
+  `;
+  $('#modalBg').classList.add('open');
+}
+window.closeModal = ()=> $('#modalBg').classList.remove('open');
+
+window.saveLeadEdits = function(id){
+  const l = state.leads.find(x=>x.id===id);
+  if(!l) return;
+  l.status = $('#mStatus').value;
+  l.notes = $('#mNotes').value;
+  l.updated_at = todayStr();
+  render();
+  closeModal();
+  persistLeads();
+}
+
+window.logAttempt = function(id){
+  const l = state.leads.find(x=>x.id===id);
+  if(!l) return;
+  l.attempts = l.attempts || [];
+  if(l.attempts.length>=3){ alert('Este lead ya llegó al máximo de 3 intentos.'); return; }
+  const n = l.attempts.length+1;
+  const channel = $('#mChannel').value;
+  const date = $('#mDate').value || todayStr();
+  const tpl = tplFor(channel, n);
+  const msg = tpl ? fillTemplate(channel==='email' ? tpl.subject+'\n\n'+tpl.body : tpl.body, l) : '(sin plantilla)';
+  l.attempts.push({n, channel, date, template_id: tpl?tpl.id:null});
+  if(l.status==='no_contactado') l.status='contactado';
+  l.updated_at = todayStr();
+  const link = channel==='email' ? l.mailto_link : l.whatsapp_link;
+  render();
+  persistLeads();
+  openLead(id);
+  window.open(link,'_blank');
+  alert('Mensaje sugerido para intento '+n+':\n\n'+msg);
+}
+
+// ---------- Funnel ----------
+function renderFunnel(){
+  const today = [], upcoming = [];
+  state.leads.forEach(l=>{
+    if(['respondio','agendo'].includes(l.status)) return;
+    const attempts = l.attempts||[];
+    if(attempts.length===0 || attempts.length>=3) return;
+    const last = attempts[attempts.length-1];
+    const nextN = attempts.length+1;
+    const due = DUE_DAYS[nextN];
+    const since = daysSince(last.date);
+    const item = {lead:l, nextN, since, due, remaining: due-since};
+    if(since>=due) today.push(item); else upcoming.push(item);
+  });
+  today.sort((a,b)=>b.since-a.since);
+  upcoming.sort((a,b)=>a.remaining-b.remaining);
+
+  $('#funnelToday').innerHTML = today.map(it=>funnelCard(it,true)).join('') || '<p class="empty">Nadie vencido hoy 🎉</p>';
+  $('#funnelUpcoming').innerHTML = upcoming.map(it=>funnelCard(it,false)).join('') || '<p class="empty">Nada pendiente por ahora.</p>';
+}
+
+function funnelCard(it, isDue){
+  const l = it.lead;
+  const channel = it.nextN===2 ? 'whatsapp' : 'email'; // sugerencia: intento2 wa, intento3 correo (ajustable)
+  const tpl = tplFor(channel, it.nextN);
+  const msg = tpl ? fillTemplate(channel==='email'?tpl.subject+'\n\n'+tpl.body:tpl.body, l) : '';
+  const link = channel==='email' ? l.mailto_link : l.whatsapp_link;
+  return `
+    <div class="funnel-item">
+      <b>${l.name}</b> <span class="muted">· ${l.city} · intento ${it.nextN}/3 · último contacto hace ${it.since}d</span>
+      <span class="badge b-${l.status}" style="margin-left:6px">${STATUS_LABELS[l.status]}</span>
+      ${isDue ? '' : `<span class="muted"> · faltan ${it.remaining}d</span>`}
+      <div class="msg">${msg}</div>
+      <div class="link-actions">
+        <a href="${link}" target="_blank" onclick="logAttemptQuick('${l.id}','${channel}')">${channel==='email'?'Abrir correo':'Abrir WhatsApp'} y registrar</a>
+        <button onclick="openLead('${l.id}')">Ver ficha</button>
+      </div>
+    </div>
+  `;
+}
+
+window.logAttemptQuick = function(id, channel){
+  const l = state.leads.find(x=>x.id===id);
+  if(!l) return;
+  l.attempts = l.attempts || [];
+  if(l.attempts.length>=3) return;
+  const n = l.attempts.length+1;
+  const tpl = tplFor(channel, n);
+  l.attempts.push({n, channel, date: todayStr(), template_id: tpl?tpl.id:null});
+  if(l.status==='no_contactado') l.status='contactado';
+  l.updated_at = todayStr();
+  persistLeads();
+  render();
+}
+
+// ---------- Plantillas ----------
+let activeTplChannel = 'email';
+$all('.tpl-tabs button').forEach(b=>b.addEventListener('click', ()=>{
+  $all('.tpl-tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  activeTplChannel = b.dataset.ttab;
+  renderTemplates();
+}));
+
+function renderTemplates(){
+  const list = state.templates[activeTplChannel]||[];
+  $('#tplList').innerHTML = list.map((t,i)=>`
+    <div class="card">
+      <h3>${t.name} <span class="muted" style="font-size:12px">(intento ${t.intento})</span></h3>
+      ${activeTplChannel==='email' ? `<label>Asunto</label><input type="text" data-ch="${activeTplChannel}" data-i="${i}" data-f="subject" value="${(t.subject||'').replace(/"/g,'&quot;')}">` : ''}
+      <label>Mensaje</label>
+      <textarea data-ch="${activeTplChannel}" data-i="${i}" data-f="body">${t.body||''}</textarea>
+    </div>
+  `).join('');
+}
+document.addEventListener('input', e=>{
+  if(e.target.matches('[data-ch]')){
+    const {ch,i,f} = e.target.dataset;
+    state.templates[ch][+i][f] = e.target.value;
+  }
+});
+
+$('#saveTemplates').addEventListener('click', async ()=>{
+  await persistTemplates();
+});
+
+// ---------- Persistencia (GitHub API o descarga) ----------
+function ghCfg(){
+  return {
+    owner: ls('owner','wirdolab'), repo: ls('repo','thegrongweb'), branch: ls('branch','main'),
+    token: ls('token','')
+  };
+}
+
+async function ghGetSha(path){
+  const {owner,repo,branch,token} = ghCfg();
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`, {
+    headers: {Authorization: `Bearer ${token}`, Accept:'application/vnd.github+json'}
+  });
+  if(!res.ok) return null;
+  const j = await res.json();
+  return j.sha;
+}
+
+async function ghPutFile(path, contentObj, message){
+  const {owner,repo,branch,token} = ghCfg();
+  if(!token){ return {ok:false, reason:'no-token'}; }
+  const sha = await ghGetSha(path);
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(contentObj, null, 2))));
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+    method:'PUT',
+    headers:{Authorization:`Bearer ${token}`, Accept:'application/vnd.github+json'},
+    body: JSON.stringify({message, content, branch, sha: sha||undefined})
+  });
+  return {ok: res.ok, status: res.status};
+}
+
+async function persistLeads(){
+  const r = await ghPutFile('leads.json', state.leads, 'dashboard: actualizar leads.json');
+  if(!r.ok) console.warn('No se pudo guardar en GitHub (sin token o error). Usa "Descargar leads.json" en Ajustes.', r);
+}
+async function persistTemplates(){
+  const r = await ghPutFile('dashboard/templates.json', state.templates, 'dashboard: actualizar templates.json');
+  $('#tplSaveStatus').textContent = r.ok ? 'Guardado en GitHub ✓' : 'No se pudo guardar en GitHub — usa "Descargar templates.json" en Ajustes o revisa tu token.';
+}
+
+function downloadJson(obj, filename){
+  const blob = new Blob([JSON.stringify(obj,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+$('#downloadLeads').addEventListener('click', ()=>downloadJson(state.leads,'leads.json'));
+$('#downloadTemplates').addEventListener('click', ()=>downloadJson(state.templates,'templates.json'));
+$('#reloadData').addEventListener('click', loadData);
+
+// ---------- Ajustes ----------
+function loadSettingsUi(){
+  $('#cfgMiNombre').value = ls('minombre','');
+  $('#cfgCalendly').value = ls('calendly','');
+  $('#cfgOwner').value = ls('owner','wirdolab');
+  $('#cfgRepo').value = ls('repo','thegrongweb');
+  $('#cfgBranch').value = ls('branch','main');
+  $('#tokenStatus').textContent = ls('token','') ? 'Token guardado en este navegador.' : 'Sin token guardado — el guardado usará descarga manual.';
+}
+$('#saveCfgPersonal').addEventListener('click', ()=>{
+  setLs('minombre', $('#cfgMiNombre').value);
+  setLs('calendly', $('#cfgCalendly').value);
+  alert('Guardado.');
+});
+$('#saveToken').addEventListener('click', ()=>{
+  setLs('owner', $('#cfgOwner').value||'wirdolab');
+  setLs('repo', $('#cfgRepo').value||'thegrongweb');
+  setLs('branch', $('#cfgBranch').value||'main');
+  setLs('token', $('#cfgToken').value||'');
+  $('#cfgToken').value='';
+  loadSettingsUi();
+});
+$('#clearToken').addEventListener('click', ()=>{
+  localStorage.removeItem('tgw_token');
+  loadSettingsUi();
+});
+$('#testToken').addEventListener('click', async ()=>{
+  const {owner,repo,token} = ghCfg();
+  if(!token){ $('#tokenStatus').textContent='No hay token guardado.'; return; }
+  const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {headers:{Authorization:`Bearer ${token}`}});
+  $('#tokenStatus').textContent = res.ok ? 'Conexión OK ✓' : `Error (${res.status}) — revisa el token/permisos.`;
+});
+
+// ---------- Tabs ----------
+$all('nav.tabs button').forEach(b=>b.addEventListener('click', ()=>{
+  $all('nav.tabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  $all('.panel').forEach(p=>p.classList.remove('active'));
+  $('#panel-'+b.dataset.tab).classList.add('active');
+  if(b.dataset.tab==='mapa' && state.map) setTimeout(()=>state.map.invalidateSize(),50);
+}));
+
+$('#modalBg').addEventListener('click', e=>{ if(e.target.id==='modalBg') closeModal(); });
+
+loadSettingsUi();
+loadData();
+</script>
+</body>
+</html>

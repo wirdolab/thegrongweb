@@ -1,0 +1,15 @@
+{
+  "name": "thegrongweb-whatsapp-sender",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Proceso persistente de envío automático de WhatsApp para TheGrongWeb. Corre en una VM propia (no en GitHub Actions) porque necesita mantener la sesión de WhatsApp Web logueada entre corridas.",
+  "scripts": {
+    "start": "node whatsapp-sender.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}

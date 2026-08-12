@@ -1,0 +1,24 @@
+[
+  {
+    "id": "tacos-el-buen-sabor-mcallen-tx",
+    "name": "Tacos El Buen Sabor",
+    "category": "rest",
+    "city": "McAllen",
+    "state": "TX",
+    "lat": 26.2034,
+    "lng": -98.2300,
+    "phone": "+19565551234",
+    "email": "contacto@example.com",
+    "rating": 4.6,
+    "reviews": 187,
+    "demo_link": "https://wirdolab.github.io/thegrongweb/#d=REEMPLAZAR_CON_LINK_REAL",
+    "whatsapp_link": "https://wa.me/19565551234?text=Hola%20les%20comparto%20una%20idea%20de%20p%C3%A1gina%20para%20Tacos%20El%20Buen%20Sabor",
+    "mailto_link": "mailto:contacto@example.com?subject=Idea%20de%20p%C3%A1gina%20para%20Tacos%20El%20Buen%20Sabor",
+    "status": "no_contactado",
+    "attempts": [],
+    "opted_out": false,
+    "notes": "Lead de ejemplo — bórralo cuando cargues tus datos reales con generate-outreach.js",
+    "created_at": "2026-08-05",
+    "updated_at": "2026-08-05"
+  }
+]
