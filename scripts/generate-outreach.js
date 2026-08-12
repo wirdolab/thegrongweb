@@ -229,7 +229,7 @@ async function main() {
       byId.set(id, { ...prev, ...base, status: prev.status, attempts: prev.attempts, notes: prev.notes, created_at: prev.created_at });
       updated++;
     } else {
-      byId.set(id, { ...base, status: 'no_contactado', attempts: [], notes: '', created_at: today });
+      byId.set(id, { ...base, status: 'no_contactado', attempts: [], opted_out: false, notes: '', created_at: today });
       added++;
     }
   }
